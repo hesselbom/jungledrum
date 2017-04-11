@@ -43,15 +43,19 @@ export default class FileModal extends Component {
       })
   }
 
-  render ({dispatch, file}) {
+  render ({dispatch, file, uploads}) {
     let list = <p className='empty'>No files uploaded yet</p>
 
     if (file.list.length > 0) {
-      list = <ul>
+      list = <ul className={cn('list', { '-image': file.image })}>
         {
           file.list
             .filter(f => file.image ? isImage(f.name) : true)
-            .map(f => <li><a onClick={() => dispatch({ type: 'SELECTED_FILE', file: f })}>{f.name}</a></li>)
+            .map(f => <li>
+              <a onClick={() => dispatch({ type: 'SELECTED_FILE', file: f })}>
+                {file.image ? <img src={'/' + uploads + '/' + f.name} /> : f.name}
+              </a>
+            </li>)
         }
       </ul>
     }

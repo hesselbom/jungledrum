@@ -143,7 +143,7 @@ class PageView extends Component {
           ))
         }
       </div>
-      <FileModal file={file} dispatch={dispatch} />
+      <FileModal file={file} dispatch={dispatch} uploads={GLOBALS.uploads} />
     </section>
   }
 }

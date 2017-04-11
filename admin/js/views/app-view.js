@@ -14,7 +14,7 @@ let view = ({templates, snackbars, pages, children, pageid, path, menu, user, di
 
   return <div className={`app-view ${menu.open ? '-menuopen' : ''}`}>
     <div className='pages'>
-      <div className='logo-div' />
+      <div className='logo'><div className='logo-div' /></div>
       <div className='list'>
         <ul className='pages-list'>
           {
