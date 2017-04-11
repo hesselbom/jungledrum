@@ -8,6 +8,7 @@ import InputList from '../components/input-list'
 import ObjectInput from '../components/object-input'
 import CheckboxInput from '../components/checkbox-input'
 import SelectInput from '../components/select-input'
+import WysiwygInput from '../components/wysiwyg-input'
 import CustomInput from '../components/custom-input'
 import { addSnackbar } from './snackbars'
 import history from '../history'
@@ -114,6 +115,12 @@ export function getInput (field, value, { onInput, onFileInput, onFileInputPath,
       path={path != null ? path : field.id}
       onChange={onInput}
       onFileInputPath={onFileInputPath}
+      value={value}
+    />,
+    'wysiwyg': <WysiwygInput
+      label={field.name}
+      name={field.id}
+      onChange={onInput}
       value={value}
     />,
     'image': <ImageInput
