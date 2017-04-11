@@ -40,16 +40,19 @@ export function savePage (dispatch, data) {
       'Content-Type': 'application/json'
     }
   })
-    .then(response => {
+    .then(res => {
       if (isNew) {
-        response.json()
+        res.json()
           .then(data => {
-            if (response.status === 200) {
+            if (res.status === 200) {
               addSnackbar('Saved page', 'save')
               fetchPages(dispatch)
                 .then(() => {
                   dispatch({ type: 'SET_SAVING', saving: false })
-                  history.push(`${GLOBALS.adminurl}/page/${data._id}`)
+                  dispatch({ type: 'SET_CLEAN_PAGE', clean: true })
+                  setTimeout(() =>
+                    history.push(`${GLOBALS.adminurl}/page/${data._id}`)
+                  , 50)
                 })
             } else {
               addSnackbar('Error saving page')
@@ -58,7 +61,7 @@ export function savePage (dispatch, data) {
       } else {
         dispatch({ type: 'SET_SAVING', saving: false })
 
-        if (response.status === 200) {
+        if (res.status === 200) {
           addSnackbar('Saved page', 'save')
           fetchPages(dispatch)
         } else {
@@ -66,7 +69,7 @@ export function savePage (dispatch, data) {
         }
       }
 
-      return response
+      return res
     })
 }
 

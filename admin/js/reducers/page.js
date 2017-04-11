@@ -1,7 +1,13 @@
 export default (state = {}, action) => {
   switch (action.type) {
-    case 'SET_PAGE': return action.page || {}
-    case 'SET_PAGES': return action.pages.find(p => p._id === state._id) || state
+    case 'SET_PAGE': return {
+      ...(action.page || {}),
+      _clean: true
+    }
+    case 'SET_PAGES': return {
+      ...(action.pages.find(p => p._id === state._id) || state),
+      _clean: true
+    }
     case 'NEW_PAGE': return {
       _title: 'New page'
     }
@@ -11,7 +17,8 @@ export default (state = {}, action) => {
     }
     case 'UPDATE_PAGE_PROP': return {
       ...state,
-      [action.prop]: action.value
+      [action.prop]: action.value,
+      _clean: false
     }
     case 'SHOW_FILE': return {
       ...state,
@@ -21,6 +28,10 @@ export default (state = {}, action) => {
       ...state,
       [state._fileprop]: action.file.name
     } : state
+    case 'SET_CLEAN_PAGE': return {
+      ...state,
+      _clean: action.clean
+    }
   }
   return state
 }

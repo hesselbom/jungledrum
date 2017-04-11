@@ -1,6 +1,6 @@
 import { Component } from 'preact'
 import { connect } from 'preact-redux'
-// import history from '../history'
+import history from '../history'
 import TextInput from '../components/text-input'
 import CheckboxInput from '../components/checkbox-input'
 import SelectInput from '../components/select-input'
@@ -13,30 +13,25 @@ let setPageTemplate = dispatch => template => {
   dispatch({ type: 'SET_PAGE_TEMPLATE', template })
 }
 
-let onInput = (dispatch, prop) => value =>
+let onInput = (dispatch, prop) => value => {
   dispatch({ type: 'UPDATE_PAGE_PROP', prop, value })
+}
 
 let onSelectFile = (dispatch, prop) => image =>
   dispatch({ type: 'SHOW_FILE', image, prop })
 
 class PageView extends Component {
-  /*
   constructor () {
     super()
 
-    // TODO: Make this work with images
     history.block((location, action) => {
       if (this.mounted && location.pathname !== history.location.pathname) {
-        let initial = JSON.stringify(this.initial)
-        let current = JSON.stringify(this.props.page)
-
-        if (initial !== current) {
+        if (this.props.page._clean === false) {
           return 'You have unsaved changes, are you sure you want to leave this page?'
         }
       }
     })
   }
-  */
 
   populateCustomFields (page) {
     let templateKeys = Object.keys(this.props.templates)
@@ -58,13 +53,7 @@ class PageView extends Component {
   onSavePage (dispatch, page) {
     return ev => {
       let data = this.populateCustomFields(page)
-
       savePage(dispatch, data)
-        .then(response => {
-          if (response.status === 200) {
-            this.initial = { ...data }
-          }
-        })
     }
   }
 
@@ -75,13 +64,6 @@ class PageView extends Component {
 
   componentWillUnmount () {
     this.mounted = false
-  }
-
-  componentWillReceiveProps (props) {
-    if (props.page && ((!this.props.page || props.page._id !== this.props.page._id) || !this.initial)) {
-      this.initial = { ...props.page }
-      this.setupCustomFields(props)
-    }
   }
 
   setupCustomFields (props) {
