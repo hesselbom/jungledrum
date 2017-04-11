@@ -24,6 +24,9 @@ class PageView extends Component {
   constructor () {
     super()
 
+    /*
+    // Commented out until preact-router bug is fixed (https://github.com/developit/preact-router/pull/140)
+
     history.block((location, action) => {
       if (this.mounted && location.pathname !== history.location.pathname) {
         if (this.props.page._clean === false) {
@@ -31,6 +34,7 @@ class PageView extends Component {
         }
       }
     })
+    */
   }
 
   populateCustomFields (page) {
