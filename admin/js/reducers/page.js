@@ -13,6 +13,14 @@ export default (state = {}, action) => {
       ...state,
       [action.prop]: action.value
     }
+    case 'SHOW_FILE': return {
+      ...state,
+      _fileprop: action.prop
+    }
+    case 'SELECTED_FILE': return state._fileprop ? {
+      ...state,
+      [state._fileprop]: action.file.name
+    } : state
   }
   return state
 }

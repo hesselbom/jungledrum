@@ -31,22 +31,14 @@ export function savePage (dispatch, data) {
 
   dispatch({ type: 'SET_SAVING', saving: true })
 
-  let dataKeys = Object.keys(data)
-  let formData = new FormData()
-  dataKeys.forEach(key => {
-    if (key.indexOf('file__') === 0) return
-
-    if (data['file__' + key]) {
-      formData.append(key, data['file__' + key])
-    } else {
-      formData.append(key, data[key])
-    }
-  })
-
   return fetch(`${GLOBALS.adminurl}/api/pages${pathStatic}${pathAppend}`, {
     method: isNew ? 'POST' : 'PUT',
-    body: formData,
-    headers: { ...tokenHeader() }
+    body: JSON.stringify(data),
+    headers: {
+      ...tokenHeader(),
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    }
   })
     .then(response => {
       if (isNew) {
@@ -82,7 +74,7 @@ export function isInputCustom (type) {
   return !!plugins[type]
 }
 
-export function getInput (field, value, { onInput, onFileInput, onFileInputPath, path } = {}) {
+export function getInput (field, value, { onInput, path, onSelectFile } = {}) {
   if (isInputCustom(field.type) && field.instance) {
     return <CustomInput
       field={field}
@@ -104,7 +96,6 @@ export function getInput (field, value, { onInput, onFileInput, onFileInputPath,
       id={field.id}
       path={path != null ? path : field.id}
       onChange={onInput}
-      onFileInputPath={onFileInputPath}
       value={value}
     />,
     'object': <ObjectInput
@@ -114,7 +105,6 @@ export function getInput (field, value, { onInput, onFileInput, onFileInputPath,
       id={field.id}
       path={path != null ? path : field.id}
       onChange={onInput}
-      onFileInputPath={onFileInputPath}
       value={value}
     />,
     'wysiwyg': <WysiwygInput
@@ -126,16 +116,17 @@ export function getInput (field, value, { onInput, onFileInput, onFileInputPath,
     'image': <ImageInput
       label={field.name}
       name={field.id}
-      onChange={onFileInput}
+      onChange={onInput}
+      onSelectFile={onSelectFile}
       value={value}
       uploads={GLOBALS.uploads}
     />,
     'file': <FileInput
       label={field.name}
       name={field.id}
-      onChange={onFileInput}
+      onChange={onInput}
+      onSelectFile={onSelectFile}
       value={value}
-      uploads={GLOBALS.uploads}
     />,
     'markdown': <MarkdownInput
       label={field.name}

@@ -7,6 +7,7 @@ import templates from './templates'
 import editing from './editing'
 import snackbars from './snackbars'
 import menu from './menu'
+import file from './file'
 
 export default () => combineReducers({
   user,
@@ -16,5 +17,6 @@ export default () => combineReducers({
   templates,
   editing,
   snackbars,
-  menu
+  menu,
+  file
 })

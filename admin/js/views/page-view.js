@@ -6,6 +6,7 @@ import CheckboxInput from '../components/checkbox-input'
 import SelectInput from '../components/select-input'
 import ActionButton from '../components/action-button'
 import HamburgerButton from '../components/hamburger-button'
+import FileModal from '../components/file-modal'
 import { savePage, getInput, isInputCustom } from '../helpers/page'
 
 let setPageTemplate = dispatch => template => {
@@ -15,15 +16,8 @@ let setPageTemplate = dispatch => template => {
 let onInput = (dispatch, prop) => value =>
   dispatch({ type: 'UPDATE_PAGE_PROP', prop, value })
 
-let onFileInput = dispatch => path => ev => {
-  if (ev.target.files.length > 0) {
-    dispatch({ type: 'UPDATE_PAGE_PROP', prop: 'file__' + path, value: ev.target.files[0] })
-    dispatch({ type: 'UPDATE_PAGE_PROP', prop: path, value: '-' })
-  } else {
-    dispatch({ type: 'UPDATE_PAGE_PROP', prop: 'file__' + path, value: null })
-    dispatch({ type: 'UPDATE_PAGE_PROP', prop: path, value: null })
-  }
-}
+let onSelectFile = (dispatch, prop) => image =>
+  dispatch({ type: 'SHOW_FILE', image, prop })
 
 class PageView extends Component {
   /*
@@ -115,16 +109,16 @@ class PageView extends Component {
     })
   }
 
-  render ({page, templates, editing, newPage = false, dispatch}) {
+  render ({page, templates, editing, newPage = false, file, dispatch}) {
     if (!page) {
       return <section className='no-page'>
         <p>Page not found</p>
       </section>
     }
 
-    // if (this.customFields == null) {
-    //   this.setupCustomFields(this.props)
-    // }
+    if (this.customFields == null || this.customFields.length === 0) {
+      this.setupCustomFields(this.props)
+    }
 
     let templateKeys = Object.keys(templates)
     let templateKey = page._template || templateKeys[0]
@@ -158,12 +152,12 @@ class PageView extends Component {
             page[field.id],
             {
               onInput: onInput(dispatch, field.id),
-              onFileInput: onFileInput(dispatch)(field.id),
-              onFileInputPath: onFileInput(dispatch)
+              onSelectFile: onSelectFile(dispatch, field.id)
             }
           ))
         }
       </div>
+      <FileModal file={file} dispatch={dispatch} />
     </section>
   }
 }
@@ -171,5 +165,6 @@ class PageView extends Component {
 export default connect(store => ({
   page: store.page,
   templates: store.templates,
-  editing: store.editing
+  editing: store.editing,
+  file: store.file
 }))(PageView)

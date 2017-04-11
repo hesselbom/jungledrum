@@ -1,4 +1,4 @@
-export default ({label, name, value, onChange, uploads}) =>
+export default ({label, name, value, onChange, onSelectFile, uploads}) =>
   <div className='image-input'>
     <label for={name}>{label}</label>
     <div className='fields'>
@@ -8,7 +8,7 @@ export default ({label, name, value, onChange, uploads}) =>
         </div>
         : null}
       <div className='input'>
-        <input type='file' accept='image/*' id={name} name={name} onChange={onChange} />
+        <button className='button' onClick={() => onSelectFile(true)}>Select image</button>
       </div>
     </div>
   </div>

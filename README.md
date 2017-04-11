@@ -195,4 +195,4 @@ plugins['example'] = {
 # TODO
 - Don't always compile to static, maybe allow dynamic pages
 - Allow use of mongodb instead of .jungledb
-- Clean up codebase
+- Write tests
