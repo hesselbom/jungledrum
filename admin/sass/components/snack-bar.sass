@@ -1,0 +1,21 @@
+.snack-bar
+  display: inline-block
+  max-width: rem(280)
+  padding: 1em 1.5em
+  background: #1d2631
+  box-shadow: 2px 2px 2px rgba(black, .1)
+  color: white
+  text-align: left
+  border-radius: rem(2)
+  transition: opacity .2s ease, visibility .2s ease
+
+  &.-hidden
+    opacity: 0
+    visibility: hidden
+
+  > .icon, > .message
+    display: inline-block
+    vertical-align: middle
+
+  > .icon
+    margin-right: 1em

@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto|Sansita')
+
+$fa-font-path: './fonts'
+
+@import 'normalize'
+@import 'functions'
+@import 'variables'
+@import 'font-awesome'
+
++normalize
+
+*, *:before, *:after
+  box-sizing: border-box
+
+html
+  -webkit-font-smoothing: antialiased
+
+html, body, #app
+  height: 100%
+  color: $text-color
+  font-family: $body-font
+
+body
+  font-family: arial, sans-serif
+
+h1, h2, h3, h4, h5, h6, p
+  margin-top: 0
+  margin-bottom: 1em
+
+h1, h2, h3, h4, h5, h6
+  font-family: $header-font
+
+@import 'components/*'

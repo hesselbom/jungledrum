@@ -1,0 +1,87 @@
+.app-view
+  height: 100%
+  display: flex
+  position: relative
+
+  > .pages
+    background: white
+    width: rem(290)
+    max-width: 100%
+    height: 100%
+    border-right: 1px solid #ddd
+    overflow: auto
+    padding-bottom: 2rem
+    display: flex
+    flex-direction: column
+
+    > .info
+      margin-top: 2rem
+      text-align: center
+      font-size: rem(12)
+
+      > p
+        margin-top: .75rem
+        margin-bottom: 0
+
+      > .logout > a
+        text-transform: uppercase
+        letter-spacing: rem(.5)
+        cursor: pointer
+        opacity: .7
+
+        &:hover
+          text-decoration: underline
+
+    > .list
+      flex: 1
+
+      > .add
+        text-align: center
+        margin-top: 1rem
+
+    @media #{$mobile}
+      position: absolute
+      z-index: 1
+      box-shadow: 2px 0 2px rgba(black, .02)
+      transition: opacity .3s ease, visibility .3s ease, transform .3s ease
+      transform: translateX(-100%)
+      opacity: 0
+      visibility: hidden
+
+  > .content
+    flex: 1
+    height: 100%
+
+  > .overlay
+    opacity: 0
+    visibility: hidden
+    pointer-events: none
+    background: rgba(black, .3)
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    transition: opacity .2s ease, visibility .2s ease
+
+    @media #{$desktop}
+      display: none
+
+  > .snackbar-list
+    position: absolute
+    bottom: 1rem
+    left: 1rem
+    right: 1rem
+
+  @media #{$mobile}
+    &.-menuopen
+      > .pages
+        opacity: 1
+        visibility: visible
+        transform: none
+        -webkit-overflow-scrolling: touch
+
+      > .overlay
+        opacity: 1
+        visibility: visible
+        pointer-events: auto

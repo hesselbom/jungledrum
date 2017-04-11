@@ -1,0 +1,98 @@
+{
+  "name": "jungledrum",
+  "version": "0.1.0",
+  "description": "Command line static CMS",
+  "main": "index.js",
+  "watch": {
+    "buildjs": {
+      "patterns": [
+        "admin/js"
+      ],
+      "extensions": "js"
+    },
+    "buildcss": {
+      "patterns": [
+        "admin/sass"
+      ],
+      "extensions": "sass"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "syntax": "standard --fix",
+    "build": "node build.js",
+    "buildjs": "node build.js js",
+    "buildcss": "node build.js css",
+    "watch": "npm-watch"
+  },
+  "bin": {
+    "jungledrum": "./index.js"
+  },
+  "author": {
+    "name": "Viktor Hesselbom",
+    "email": "viktor@hesselbom.net"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.16.0",
+    "chokidar": "^1.6.1",
+    "colors": "^1.1.2",
+    "express": "^4.14.1",
+    "express-jwt": "^5.1.0",
+    "font-awesome": "^4.7.0",
+    "fs-extra": "^2.0.0",
+    "glob": "^7.1.1",
+    "jsonfile": "^2.4.0",
+    "jsonwebtoken": "^7.3.0",
+    "katex": "^0.7.1",
+    "markdown-it": "^8.2.2",
+    "markdown-it-abbr": "^1.0.4",
+    "markdown-it-checkbox": "^1.1.0",
+    "markdown-it-deflist": "^2.0.1",
+    "markdown-it-footnote": "^3.0.1",
+    "markdown-it-ins": "^2.0.0",
+    "markdown-it-mark": "^2.0.0",
+    "markdown-it-math": "^4.0.1",
+    "markdown-it-sub": "^1.0.0",
+    "markdown-it-sup": "^1.0.0",
+    "markdown-it-toc": "^1.1.0",
+    "md5": "^2.2.1",
+    "mkdirp": "^0.5.1",
+    "multer": "^1.3.0",
+    "perfy": "^1.1.2",
+    "prompt": "^1.0.0",
+    "pug": "^2.0.0-beta10",
+    "pug-lexer": "^2.3.2",
+    "shortid": "^2.2.6",
+    "slug": "^0.9.1",
+    "yesno": "0.0.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.7.2",
+    "babel-plugin-jsx-pragmatic": "^1.0.2",
+    "babel-plugin-transform-react-jsx": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "babelify": "^7.3.0",
+    "browserify": "^14.0.0",
+    "history": "^4.5.1",
+    "js-cookie": "^2.1.4",
+    "node-sass": "^4.5.0",
+    "node-sass-globbing": "0.0.23",
+    "normalize-scss": "^6.0.0",
+    "npm-watch": "^0.1.8",
+    "postcss": "^5.2.11",
+    "preact": "^8.0.0",
+    "preact-redux": "^2.0.0",
+    "preact-router": "/Volumes/Extra/Web/preact-router",
+    "redux": "^3.6.0"
+  },
+  "standard": {
+    "globals": [
+      "fetch",
+      "GLOBALS",
+      "FormData",
+      "plugins"
+    ]
+  }
+}

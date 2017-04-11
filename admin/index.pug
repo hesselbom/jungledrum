@@ -1,0 +1,12 @@
+doctype html
+title #{websitename} Admin
+meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1')
+link(rel='stylesheet' href=adminurl+'/admin.css')
+script.
+  var GLOBALS = { adminurl: '#{adminurl}', uploads: '#{uploads}', requiresLogin: #{requiresLogin} }
+  var plugins = {}
+each plugin in plugins
+  script(src='/plugins/' + plugin)
+script(src=adminurl+'/admin.js' async)
+
+#app

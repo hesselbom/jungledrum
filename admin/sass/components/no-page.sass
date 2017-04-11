@@ -1,0 +1,15 @@
+.no-page
+  min-height: 100%
+  background: #eee
+  display: flex
+  flex-direction: column
+
+  @media #{$desktop}
+    > .page-header
+      display: none
+
+  > .content
+    display: flex
+    align-items: center
+    justify-content: center
+    flex: 1
