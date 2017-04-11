@@ -32,10 +32,14 @@ let view = ({templates, snackbars, pages, children, pageid, path, menu, user, di
           ? <div className='add'><ActionButton label='Add page' icon='plus' href={`${GLOBALS.adminurl}/new`} active={path === `${GLOBALS.adminurl}/new`} /></div>
           : null}
       </div>
-      <div className='info'>
-        <p>Logged in as <strong>{user.username || '...'}</strong></p>
-        <p className='logout'><a onClick={onLogOut(dispatch)}>&larr; Logout</a></p>
-      </div>
+      {
+        user.token
+        ? <div className='info'>
+          <p>Logged in as <strong>{user.username || '...'}</strong></p>
+          <p className='logout'><a onClick={onLogOut(dispatch)}>&larr; Logout</a></p>
+        </div>
+        : null
+      }
     </div>
     <div className='content'>
       {children}
