@@ -1,12 +1,22 @@
 doctype html
-title #{websitename} Admin
-meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1')
-link(rel='stylesheet' href=adminurl+'/admin.css')
-script.
-  var GLOBALS = { adminurl: '#{adminurl}', uploads: '#{uploads}', requiresLogin: #{requiresLogin} }
-  var plugins = {}
-each plugin in plugins
-  script(src='/plugins/' + plugin)
-script(src=adminurl+'/admin.js' async)
+head
+  title #{websitename} Admin
+  meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1')
+  link(rel='stylesheet' href=adminurl+'/admin.css')
 
-#app
+  link(rel='apple-touch-icon', sizes='180x180', href=adminurl+'/static/apple-touch-icon.png')
+  link(rel='icon', type='image/png', href=adminurl+'/static/favicon-32x32.png', sizes='32x32')
+  link(rel='icon', type='image/png', href=adminurl+'/static/favicon-16x16.png', sizes='16x16')
+  link(rel='manifest', href=adminurl+'/static/manifest.json')
+  link(rel='mask-icon', href=adminurl+'/static/safari-pinned-tab.svg', color='#000000')
+  meta(name='theme-color', content='#ffffff')
+
+  script.
+    var GLOBALS = { adminurl: '#{adminurl}', uploads: '#{uploads}', requiresLogin: #{requiresLogin} }
+    var plugins = {}
+  each plugin in plugins
+    script(src='/plugins/' + plugin)
+  script(src=adminurl+'/admin.js' async)
+
+body
+  #app

@@ -52,6 +52,7 @@ const onSubmit = ({username, password}, dispatch) => ev => {
 
 let view = ({dispatch, login}) =>
   <div className='login-view'>
+    <div className='logo-div' />
     <form onSubmit={onSubmit(login, dispatch)}>
       <TextInput label='Username' name='username' value={login.username} onChange={onInput('username', dispatch)} />
       <TextInput type='password' label='Password' name='password' value={login.password} onChange={onInput('password', dispatch)} />
