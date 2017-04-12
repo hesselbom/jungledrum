@@ -1,7 +1,7 @@
 {
   "name": "jungledrum",
   "version": "0.1.0",
-  "description": "Command line static CMS",
+  "description": "Command line super simple CMS",
   "main": "index.js",
   "watch": {
     "buildjs": {
