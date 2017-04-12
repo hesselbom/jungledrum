@@ -1,5 +1,7 @@
 # WIP - Not everything in this README is available at the moment!
 
+![jungledrum logo](https://github.com/hesselbom/jungledrum/raw/master/admin/static/logo.png)
+
 jungledrum is a super simple to use web server that aims to provide a CMS Admin to your frontend files.
 
 Write your frontend as you always would and turn that into a cms. No more complicated templaing files or needing to write frontend twice!
