@@ -1,17 +1,18 @@
 # WIP - Not everything in this README is available at the moment!
 
-<p align="center">
-  <a href="http://jungledrumcms.com/">
-    <img alt="jungledrom logo" src="https://github.com/hesselbom/jungledrum/raw/master/admin/static/logo.png" width="260" height="260">
-  </a>
-</p>
-
-<h1 align="center">jungledrum</h3>
+<h1 align="center">
+<img alt="jungledrom logo" src="https://github.com/hesselbom/jungledrum/raw/master/admin/static/logo.png" width="260" height="260">
+<br />
+jungledrum
+<br/><br/>
+</h1>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/jungledrum"><img src="https://img.shields.io/npm/v/jungledrum.svg" alt="npm version"></a>
   <a href="https://standardjs.com"><img src="https://img.shields.io/badge/code_style-standard-brightgreen.svg" alt="Standard - JavaScript Style Guide"></a>
 </p>
+<br/>
+<br/>
 
 # What is this?
 jungledrum is a super simple to use web server that aims to provide a CMS Admin to your frontend files.
