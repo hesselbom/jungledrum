@@ -23,6 +23,19 @@ export function fetchPages (dispatch) {
     .catch(err => err.message === '401' ? dispatch({ type: 'LOGOUT' }) : null)
 }
 
+function encodeJson (data) {
+  let d = {}
+  Object.keys(data).forEach(key => {
+    let value = data[key]
+    if (value && typeof value !== 'string') {
+      d[key] = JSON.stringify(value)
+    } else {
+      d[key] = value
+    }
+  })
+  return d
+}
+
 export function savePage (dispatch, data) {
   const isNew = !data._id
   const isStatic = !!data._static
@@ -30,6 +43,9 @@ export function savePage (dispatch, data) {
   const pathStatic = isStatic ? '/static' : ''
 
   dispatch({ type: 'SET_SAVING', saving: true })
+
+  // Encode arrays and objects to json strings
+  data = encodeJson(data)
 
   return fetch(`${GLOBALS.adminurl}/api/pages${pathStatic}${pathAppend}`, {
     method: isNew ? 'POST' : 'PUT',
@@ -97,8 +113,9 @@ export function getInput (field, value, { onInput, path, onSelectFile } = {}) {
       label={field.name}
       name={field.id}
       id={field.id}
-      path={path != null ? path : field.id}
+      path={path != null ? path : [field.id]}
       onChange={onInput}
+      onSelectFile={onSelectFile}
       value={value}
     />,
     'object': <ObjectInput
@@ -106,8 +123,9 @@ export function getInput (field, value, { onInput, path, onSelectFile } = {}) {
       label={field.name}
       name={field.id}
       id={field.id}
-      path={path != null ? path : field.id}
+      path={path != null ? path : [field.id]}
       onChange={onInput}
+      onSelectFile={onSelectFile}
       value={value}
     />,
     'wysiwyg': <WysiwygInput
@@ -120,7 +138,7 @@ export function getInput (field, value, { onInput, path, onSelectFile } = {}) {
       label={field.name}
       name={field.id}
       onChange={onInput}
-      onSelectFile={onSelectFile}
+      onSelectFile={onSelectFile(path != null ? path : field.id)}
       value={value}
       uploads={GLOBALS.uploads}
     />,
@@ -128,7 +146,7 @@ export function getInput (field, value, { onInput, path, onSelectFile } = {}) {
       label={field.name}
       name={field.id}
       onChange={onInput}
-      onSelectFile={onSelectFile}
+      onSelectFile={onSelectFile(path != null ? path : field.id)}
       value={value}
     />,
     'markdown': <MarkdownInput

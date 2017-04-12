@@ -4,34 +4,31 @@ import ActionButton from '../components/action-button'
 
 const onAddItem = ({list, onChange}) => ev => {
   list.push('')
-  onChange(JSON.stringify(list))
-}
-
-const onFileInput = (obj, path, onFileInputPath) => ev => {
-  onFileInputPath(path)(ev)
+  onChange(list)
 }
 
 const onInput = (list, i, onChange) => value => {
   list[i] = value
-  onChange(JSON.stringify(list))
+  onChange(list)
 }
 
-export default ({path, field, label, value, onChange, onFileInputPath}) => {
-  let list
-  try { list = JSON.parse(value) } catch (err) { list = [] }
+export default ({path, field, label, value, onChange, onSelectFile}) => {
+  let list = value || []
+  if (typeof value === 'string') {
+    try { list = JSON.parse(value) } catch (err) { list = [] }
+  }
 
   return <div className='input-list'>
     <label>{label}</label>
     <div className='list'>
       {list.map((item, i) => {
-        let _path = (path ? `${path}$` : '') + i
+        let _path = (path || []).concat(i)
         return getInput(
           field.field,
           item,
           {
             onInput: onInput(list, i, onChange),
-            onFileInput: onFileInput(list, _path, onFileInputPath),
-            onFileInputPath: onFileInputPath,
+            onSelectFile,
             path: _path
           }
         )

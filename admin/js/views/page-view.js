@@ -1,6 +1,6 @@
 import { Component } from 'preact'
 import { connect } from 'preact-redux'
-import history from '../history'
+// import history from '../history'
 import TextInput from '../components/text-input'
 import CheckboxInput from '../components/checkbox-input'
 import SelectInput from '../components/select-input'
@@ -17,14 +17,14 @@ let onInput = (dispatch, prop) => value => {
   dispatch({ type: 'UPDATE_PAGE_PROP', prop, value })
 }
 
-let onSelectFile = (dispatch, prop) => image =>
+let onSelectFile = dispatch => prop => image =>
   dispatch({ type: 'SHOW_FILE', image, prop })
 
 class PageView extends Component {
+  /*
   constructor () {
     super()
 
-    /*
     // Commented out until preact-router bug is fixed (https://github.com/developit/preact-router/pull/140)
 
     history.block((location, action) => {
@@ -34,8 +34,8 @@ class PageView extends Component {
         }
       }
     })
-    */
   }
+  */
 
   populateCustomFields (page) {
     let templateKeys = Object.keys(this.props.templates)
@@ -138,7 +138,7 @@ class PageView extends Component {
             page[field.id],
             {
               onInput: onInput(dispatch, field.id),
-              onSelectFile: onSelectFile(dispatch, field.id)
+              onSelectFile: onSelectFile(dispatch)
             }
           ))
         }
