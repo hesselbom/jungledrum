@@ -29,7 +29,7 @@ let view = ({templates, snackbars, pages, children, pageid, path, menu, user, di
           }
         </ul>
         {templatesAvailable
-          ? <div className='add'><ActionButton label='Add page' icon='plus' href={`${GLOBALS.adminurl}/new`} active={path === `${GLOBALS.adminurl}/new`} /></div>
+          ? <div className='add'><ActionButton label='Add page' title='Add page' icon='plus' href={`${GLOBALS.adminurl}/new`} active={path === `${GLOBALS.adminurl}/new`} /></div>
           : null}
       </div>
       {

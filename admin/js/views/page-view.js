@@ -126,9 +126,9 @@ class PageView extends Component {
         <div className='actions'>
           {
             !page._static && !newPage &&
-            <ActionButton label='Delete' icon='close' onClick={this.onDeletePage(dispatch, page, this)} loading={editing.deleting} disabled={editing.saving} small red />
+            <ActionButton label='Delete' title='Delete page' icon='close' onClick={this.onDeletePage(dispatch, page, this)} loading={editing.deleting} disabled={editing.saving} small red />
           }
-          <ActionButton label='Save' icon='save' onClick={this.onSavePage(dispatch, page, this)} loading={editing.saving} disabled={editing.deleting} />
+          <ActionButton label='Save' title='Save page' icon='save' onClick={this.onSavePage(dispatch, page, this)} loading={editing.saving} disabled={editing.deleting} />
         </div>
       </header>
       <div className='content'>
