@@ -1,6 +1,6 @@
 {
   "name": "jungledrum",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Command line super simple CMS",
   "main": "index.js",
   "watch": {
@@ -18,7 +18,7 @@
     }
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "standard",
     "syntax": "standard --fix",
     "build": "node build.js",
     "buildjs": "node build.js js",
