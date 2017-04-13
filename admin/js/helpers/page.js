@@ -36,6 +36,27 @@ function encodeJson (data) {
   return d
 }
 
+export function deletePage (dispatch, id) {
+  dispatch({ type: 'SET_DELETING', deleting: true })
+
+  return fetch(`${GLOBALS.adminurl}/api/pages/${id}`, {
+    method: 'DELETE',
+    headers: { ...tokenHeader() }
+  })
+    .then(res => {
+      dispatch({ type: 'SET_DELETING', deleting: false })
+
+      if (res.status === 200) {
+        addSnackbar('Deleted page', 'save')
+        fetchPages(dispatch)
+        dispatch({ type: 'SET_CLEAN_PAGE', clean: true })
+        setTimeout(() => history.push(`${GLOBALS.adminurl}`) , 50)
+      } else {
+        addSnackbar('Error deleting page')
+      }
+    })
+}
+
 export function savePage (dispatch, data) {
   const isNew = !data._id
   const isStatic = !!data._static

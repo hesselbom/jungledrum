@@ -7,7 +7,7 @@ import SelectInput from '../components/select-input'
 import ActionButton from '../components/action-button'
 import HamburgerButton from '../components/hamburger-button'
 import FileModal from '../components/file-modal'
-import { savePage, getInput, isInputCustom } from '../helpers/page'
+import { deletePage, savePage, getInput, isInputCustom } from '../helpers/page'
 
 let setPageTemplate = dispatch => template => {
   dispatch({ type: 'SET_PAGE_TEMPLATE', template })
@@ -58,6 +58,14 @@ class PageView extends Component {
     return ev => {
       let data = this.populateCustomFields(page)
       savePage(dispatch, data)
+    }
+  }
+
+  onDeletePage (dispatch, page) {
+    return ev => {
+      if (confirm('Are you sure you want to delete this page?')) {
+        deletePage(dispatch, page._id)
+      }
     }
   }
 
@@ -115,8 +123,12 @@ class PageView extends Component {
       <header className='page-header'>
         <HamburgerButton dispatch={dispatch} />
         <h1>{page._title}</h1>
-        <div className='save'>
-          <ActionButton label='Save' icon='save' onClick={this.onSavePage(dispatch, page, this)} loading={editing.saving} />
+        <div className='actions'>
+          {
+            !page._static && !newPage &&
+            <ActionButton label='Delete' icon='close' onClick={this.onDeletePage(dispatch, page, this)} loading={editing.deleting} disabled={editing.saving} small red />
+          }
+          <ActionButton label='Save' icon='save' onClick={this.onSavePage(dispatch, page, this)} loading={editing.saving} disabled={editing.deleting} />
         </div>
       </header>
       <div className='content'>

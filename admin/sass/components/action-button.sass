@@ -1,6 +1,6 @@
 .action-button
   display: inline-block
-  padding: 1em
+  padding: 1rem
   text-align: center
   transition: opacity .2s ease, box-shadow .2s ease
   cursor: pointer
@@ -10,12 +10,15 @@
   box-shadow: 2px 2px 2px rgba(black, .1)
   color: white
   border: 0
+  font-size: 0
 
   > .text
     display: inline-block
     width: 1em
     height: 1em
     transition: opacity .3s ease
+    font-size: 1rem
+    transform: translateY(-1px)
 
     > .icon
       width: 1em
@@ -45,6 +48,16 @@
 
   &:hover
     opacity: .5
+
+  &[disabled]
+    opacity: .4
+    pointer-events: none
+
+  &.-small
+    padding: 0.5rem
+
+  &.-red
+    background: #e22b37
 
   &.-active, &.-loading
     box-shadow: 2px 2px 2px rgba(black, 0)
