@@ -87,16 +87,16 @@ The admin url is also a [Progressive Web App](https://developers.google.com/web/
 # Templates
 All .html files will be treated as static files. If you want some templates with dynamic content you need to use some templating language. jungledrum supports several. Any file that is a template file (the ones supported is listed below) will be treated as a template.
 
-### Pug
+### [Pug](https://pugjs.org/)
 **File:** *.pug
 
 Ignores files starting with underscore. I.e. _layout.pug
 
-### Handlebars
-**File:** *.handlebars
+### [junglet](https://github.com/hesselbom/junglet)
+**File:** *.junglet.html
 
-### JungleTemplate
-**File:** *.jungle.html
+### [Handlebars](http://handlebarsjs.com/)
+**File:** *.handlebars
 
 ## Template config
 jungledrum will try to automatically find variables in a template and provide them as fields. If you need more than that you can supply a custom config for each template.
