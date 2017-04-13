@@ -95,9 +95,6 @@ Ignores files starting with underscore. I.e. _layout.pug
 ### [junglet](https://github.com/hesselbom/junglet)
 **File:** *.junglet.html
 
-### [Handlebars](http://handlebarsjs.com/)
-**File:** *.handlebars
-
 ## Template config
 jungledrum will try to automatically find variables in a template and provide them as fields. If you need more than that you can supply a custom config for each template.
 
@@ -159,14 +156,14 @@ Provides an array of all pages to be able to list and filter pages. Usable for a
 
 ```json
 [
-{
-  "_id": 123,
-  "_template": "template.pug",
-  "_slug": "page-123",
-  "_title": "My page",
-  "fieldabc": "Field value",
-  "fieldxyz": "Field value"
-}
+  {
+    "_id": 123,
+    "_template": "template.pug",
+    "_slug": "page-123",
+    "_title": "My page",
+    "fieldabc": "Field value",
+    "fieldxyz": "Field value"
+  }
 ]
 ```
 

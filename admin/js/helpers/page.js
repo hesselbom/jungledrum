@@ -50,7 +50,7 @@ export function deletePage (dispatch, id) {
         addSnackbar('Deleted page', 'save')
         fetchPages(dispatch)
         dispatch({ type: 'SET_CLEAN_PAGE', clean: true })
-        setTimeout(() => history.push(`${GLOBALS.adminurl}`) , 50)
+        setTimeout(() => history.push(`${GLOBALS.adminurl}`), 50)
       } else {
         addSnackbar('Error deleting page')
       }

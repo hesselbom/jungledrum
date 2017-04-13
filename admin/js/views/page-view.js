@@ -63,7 +63,7 @@ class PageView extends Component {
 
   onDeletePage (dispatch, page) {
     return ev => {
-      if (confirm('Are you sure you want to delete this page?')) {
+      if (window.confirm('Are you sure you want to delete this page?')) {
         deletePage(dispatch, page._id)
       }
     }
