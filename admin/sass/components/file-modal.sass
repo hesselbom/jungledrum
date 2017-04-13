@@ -65,7 +65,10 @@
         > li
           margin-bottom: .5rem
 
-          > a
+          > .action-button
+            margin-left: .5rem
+
+          > .link
             cursor: pointer
             transition: opacity .3s ease
 
@@ -82,8 +85,14 @@
             display: inline-block
             margin-right: 1rem
             margin-bottom: 1rem
+            position: relative
 
-            > a
+            > .action-button
+              position: absolute
+              top: rem(-4)
+              right: rem(-3)
+
+            > .link
               width: rem(100)
               height: rem(100)
               flex: none

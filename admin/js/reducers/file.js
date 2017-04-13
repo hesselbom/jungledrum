@@ -43,6 +43,14 @@ export default (state = {
       ...state,
       visible: false
     }
+    case 'DELETING_FILE': return {
+      ...state,
+      list: state.list.map(f => f.name === action.file.name ? ({...f, deleting: true}) : f)
+    }
+    case 'DELETED_FILE': return {
+      ...state,
+      list: state.list.filter(f => f.name !== action.file.name)
+    }
   }
   return state
 }

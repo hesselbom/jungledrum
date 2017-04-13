@@ -1,6 +1,7 @@
 import { Component } from 'preact'
 import cn from 'classnames'
 import ActionButton from './action-button'
+import { addSnackbar } from '../helpers/snackbars'
 import { authJson, tokenHeader } from '../helpers/api'
 
 const isImage = file => {
@@ -43,6 +44,24 @@ export default class FileModal extends Component {
       })
   }
 
+  onDelete (file) {
+    if (confirm(`Are you sure you want to delete the file ${file.name}?`)) {
+      this.props.dispatch({ type: 'DELETING_FILE', file })
+
+      return fetch(`${GLOBALS.adminurl}/api/file/${file.name}`, {
+        method: 'DELETE',
+        headers: { ...tokenHeader() }
+      })
+        .then(res => {
+          if (res.status === 200) {
+            this.props.dispatch({ type: 'DELETED_FILE', file })
+          } else {
+            addSnackbar('Error deleting file')
+          }
+        })
+    }
+  }
+
   render ({dispatch, file, uploads}) {
     let list = <p className='empty'>No files uploaded yet</p>
 
@@ -52,9 +71,10 @@ export default class FileModal extends Component {
           file.list
             .filter(f => file.image ? isImage(f.name) : true)
             .map(f => <li>
-              <a onClick={() => dispatch({ type: 'SELECTED_FILE', file: f })}>
+              <a className='link' onClick={() => dispatch({ type: 'SELECTED_FILE', file: f })}>
                 {file.image ? <img src={'/' + uploads + '/' + f.name} /> : f.name}
               </a>
+              <ActionButton label='Delete' title='Delete file' icon='close' tiny gray onClick={() => this.onDelete(f)} loading={f.deleting} />
             </li>)
         }
       </ul>
