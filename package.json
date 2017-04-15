@@ -1,6 +1,6 @@
 {
   "name": "jungledrum",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Command line super simple CMS",
   "main": "index.js",
   "watch": {
