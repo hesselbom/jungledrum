@@ -69,10 +69,7 @@ Config for your website should be stored in `.jungleconfig`. Here is an example 
   "port": 3000,
   "adminurl": "_admin",
   "salt": "xxx",
-  "uploads": "xxx",
-  "errors": {
-    "404": "slug-of-error-page"
-  }
+  "uploads": "xxx"
 }
 ```
 
@@ -170,10 +167,8 @@ Provides an array of all pages to be able to list and filter pages. Usable for a
 `websitename`
 The name of the website. The "name" field specified in .jungleconfig. Default is "jungledrum".
 
-# 404 (and other errors) page
-By default jungledrum will look for a 404.html as a 404 Not Found page. If not found it will look for a general error.html. This can be overriden in the `.jungleconfig`, see the example for "errors".
-
-It's the same for every other error. So for instance a 500 error will try to find 500.html or fallback to error.html.
+# 404 page
+By default jungledrum will look for a 404.html (or a page with the slug "404") as a 404 Not Found page. If not found it will look for a general error.html (or a page with the slug "error").
 
 # Deploying
 Recommended way of running jungledrum on a server is through [forever](https://github.com/foreverjs/forever). Run the following command in your frontend directory and it should be up and running:
