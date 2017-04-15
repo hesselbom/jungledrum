@@ -3,10 +3,16 @@ import { Link } from 'preact-router'
 import Cookies from 'js-cookie'
 import ActionButton from '../components/action-button'
 import SnackBar from '../components/snack-bar'
+import history from '../history'
 
 const onLogOut = (dispatch) => () => {
   dispatch({ type: 'LOGOUT' })
   Cookies.remove('jungletoken')
+}
+
+const onLogoClick = (dispatch) => () => {
+  dispatch({ type: 'CLOSE_MENU' })
+  history.push(`${GLOBALS.adminurl}/`)
 }
 
 let view = ({templates, snackbars, pages, children, pageid, path, menu, user, dispatch}) => {
@@ -14,7 +20,9 @@ let view = ({templates, snackbars, pages, children, pageid, path, menu, user, di
 
   return <div className={`app-view ${menu.open ? '-menuopen' : ''}`}>
     <div className='pages'>
-      <div className='logo'><Link href={GLOBALS.adminurl + '/'} className='logo-div' /></div>
+      <div className='logo'>
+        <a className='logo-div' onClick={onLogoClick(dispatch)} />
+      </div>
       <div className='list'>
         { pages.loading || templates.loading
           ? <p className='message'>Loading pages...</p>

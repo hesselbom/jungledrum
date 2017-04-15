@@ -1856,12 +1856,23 @@ var _snackBar = require('../components/snack-bar');
 
 var _snackBar2 = _interopRequireDefault(_snackBar);
 
+var _history = require('../history');
+
+var _history2 = _interopRequireDefault(_history);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var onLogOut = function onLogOut(dispatch) {
   return function () {
     dispatch({ type: 'LOGOUT' });
     _jsCookie2.default.remove('jungletoken');
+  };
+};
+
+var onLogoClick = function onLogoClick(dispatch) {
+  return function () {
+    dispatch({ type: 'CLOSE_MENU' });
+    _history2.default.push(GLOBALS.adminurl + '/');
   };
 };
 
@@ -1887,7 +1898,7 @@ var view = function view(_ref) {
       _preact2.default.h(
         'div',
         { className: 'logo' },
-        _preact2.default.h(_preactRouter.Link, { href: GLOBALS.adminurl + '/', className: 'logo-div' })
+        _preact2.default.h('a', { className: 'logo-div', onClick: onLogoClick(dispatch) })
       ),
       _preact2.default.h(
         'div',
@@ -1974,7 +1985,7 @@ exports.default = (0, _preactRedux.connect)(function (store) {
   };
 })(view);
 
-},{"../components/action-button":2,"../components/snack-bar":13,"js-cookie":45,"preact":58,"preact-redux":56,"preact-router":57}],34:[function(require,module,exports){
+},{"../components/action-button":2,"../components/snack-bar":13,"../history":21,"js-cookie":45,"preact":58,"preact-redux":56,"preact-router":57}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

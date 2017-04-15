@@ -2763,6 +2763,9 @@ h1, h2, h3, h4, h5, h6, p {
 h1, h2, h3, h4, h5, h6 {
   font-family: "Sansita", sans-serif; }
 
+a {
+  cursor: pointer; }
+
 .action-button {
   display: inline-block;
   padding: 1rem;
