@@ -2878,6 +2878,9 @@ h1, h2, h3, h4, h5, h6 {
       -webkit-box-flex: 1;
           -ms-flex: 1;
               flex: 1; }
+      .app-view > .pages > .list > .message {
+        text-align: center;
+        padding: 0 1rem; }
       .app-view > .pages > .list > .add {
         text-align: center;
         margin-top: 1rem; }
@@ -3180,6 +3183,7 @@ h1, h2, h3, h4, h5, h6 {
       margin-bottom: 1.5em; }
 
 .logo-div {
+  display: block;
   background: #1d2631;
   width: 4rem;
   height: 4rem;
@@ -3216,6 +3220,8 @@ h1, h2, h3, h4, h5, h6 {
     -webkit-box-flex: 1;
         -ms-flex: 1;
             flex: 1; }
+    .no-page > .content > .loader-spinner {
+      font-size: 2rem; }
 
 .object-input {
   margin-bottom: 1em; }

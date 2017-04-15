@@ -38,9 +38,9 @@ class PageView extends Component {
   */
 
   populateCustomFields (page) {
-    let templateKeys = Object.keys(this.props.templates)
+    let templateKeys = Object.keys(this.props.templates.templates)
     let templateKey = page._template || templateKeys[0]
-    let template = this.props.templates[templateKey] || {}
+    let template = this.props.templates.templates[templateKey] || {}
     let fields = (template.fields || [])
     let data = { ...page }
 
@@ -79,11 +79,11 @@ class PageView extends Component {
   }
 
   setupCustomFields (props) {
-    if (!props.templates) return
+    if (!(props.templates && props.templates.templates)) return
 
-    let templateKeys = Object.keys(props.templates)
+    let templateKeys = Object.keys(props.templates.templates)
     let templateKey = props.page._template || templateKeys[0]
-    let template = props.templates[templateKey] || {}
+    let template = props.templates.templates[templateKey] || {}
     let fields = (template.fields || [])
 
     this.customFields = []
@@ -103,10 +103,22 @@ class PageView extends Component {
     })
   }
 
-  render ({page, templates, editing, newPage = false, file, dispatch}) {
-    if (!page) {
+  render ({page, pages, templates, editing, newPage = false, file, dispatch}) {
+    if (pages.errorLoading || templates.errorLoading) {
       return <section className='no-page'>
-        <p>Page not found</p>
+        <header className='page-header'>
+          <HamburgerButton dispatch={dispatch} />
+        </header>
+        <div className='content'><p>Error loading pages. Try refreshing.</p></div>
+      </section>
+    }
+
+    if (!page || (!page._isNewPage && !page._id)) {
+      return <section className='no-page'>
+        <header className='page-header'>
+          <HamburgerButton dispatch={dispatch} />
+        </header>
+        <div className='content'><p>Page not found</p></div>
       </section>
     }
 
@@ -114,9 +126,9 @@ class PageView extends Component {
       this.setupCustomFields(this.props)
     }
 
-    let templateKeys = Object.keys(templates)
+    let templateKeys = Object.keys(templates.templates)
     let templateKey = page._template || templateKeys[0]
-    let template = templates[templateKey] || {}
+    let template = templates.templates[templateKey] || {}
     let fields = (template.fields || [])
 
     return <section className='page-view'>
@@ -136,7 +148,7 @@ class PageView extends Component {
           ? <SelectInput
             label='Template'
             name='_template'
-            options={templateKeys.map(key => ({ value: key, label: templates[key].name || key }))}
+            options={templateKeys.map(key => ({ value: key, label: templates.templates[key].name || key }))}
             value={templateKey}
             onChange={setPageTemplate(dispatch)}
           />
@@ -162,6 +174,7 @@ class PageView extends Component {
 
 export default connect(store => ({
   page: store.page,
+  pages: store.pages,
   templates: store.templates,
   editing: store.editing,
   file: store.file

@@ -10,24 +10,28 @@ const onLogOut = (dispatch) => () => {
 }
 
 let view = ({templates, snackbars, pages, children, pageid, path, menu, user, dispatch}) => {
-  let templatesAvailable = Object.keys(templates).length > 0
+  let templatesAvailable = Object.keys(templates.templates).length > 0
 
   return <div className={`app-view ${menu.open ? '-menuopen' : ''}`}>
     <div className='pages'>
-      <div className='logo'><div className='logo-div' /></div>
+      <div className='logo'><Link href={GLOBALS.adminurl + '/'} className='logo-div' /></div>
       <div className='list'>
-        <ul className='pages-list'>
-          {
-            pages.map(page =>
-              <li className={page._id === pageid ? '-active' : ''}>
-                <Link href={`${GLOBALS.adminurl}/page/${page._id}`}>
-                  {page._title}
-                  {page._home ? <span className='icon fa fa-home' /> : null}
-                </Link>
-              </li>
-            )
-          }
-        </ul>
+        { pages.loading || templates.loading
+          ? <p className='message'>Loading pages...</p>
+          : pages.errorLoading || templates.errorLoading
+          ? <p className='message'>Error loading pages. Try refreshing.</p>
+          : <ul className='pages-list'>
+            {
+              pages.list.map(page =>
+                <li className={page._id === pageid ? '-active' : ''}>
+                  <Link href={`${GLOBALS.adminurl}/page/${page._id}`}>
+                    {page._title}
+                    {page._home ? <span className='icon fa fa-home' /> : null}
+                  </Link>
+                </li>
+              )
+            }
+          </ul> }
         {templatesAvailable
           ? <div className='add'><ActionButton label='Add page' title='Add page' icon='plus' href={`${GLOBALS.adminurl}/new`} active={path === `${GLOBALS.adminurl}/new`} /></div>
           : null}

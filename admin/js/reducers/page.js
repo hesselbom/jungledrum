@@ -28,14 +28,21 @@ export default (state = {}, action) => {
   switch (action.type) {
     case 'SET_PAGE': return {
       ...(action.page || {}),
+      _isNewPage: false,
       _clean: true
     }
-    case 'SET_PAGES': return {
-      ...(action.pages.find(p => p._id === state._id) || state),
-      _clean: true
-    }
+    case 'SET_PAGES': return state._isNewPage
+      ? {
+        ...state,
+        _clean: true
+      }
+      : {
+        ...(action.pages.find(p => p._id === state._id) || {}),
+        _clean: true
+      }
     case 'NEW_PAGE': return {
-      _title: 'New page'
+      _title: 'New page',
+      _isNewPage: true
     }
     case 'SET_PAGE_TEMPLATE': return {
       ...state,

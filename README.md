@@ -1,5 +1,3 @@
-# WIP - Not everything in this README is available at the moment and is subject to change!
-
 <h1 align="center">
 <img alt="jungledrom logo" src="https://github.com/hesselbom/jungledrum/raw/master/admin/static/logo.png" width="260" height="260">
 <br />

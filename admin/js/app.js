@@ -16,8 +16,8 @@ import { fetchTemplates } from './helpers/template'
 
 const setPage = (pageid) => {
   let { pages } = store.getState()
-  let page = pages.find(p => p._id === pageid) || { _id: pageid }
-  store.dispatch({ type: 'SET_PAGE', page: page })
+  let page = pages.list.find(p => p._id === pageid) || { _id: pageid }
+  store.dispatch({ type: 'SET_PAGE', page })
 }
 const newPage = () => store.dispatch({ type: 'NEW_PAGE' })
 const onRouteChange = (props) => {
@@ -58,3 +58,11 @@ const routes = (
 )
 
 render(routes, document.getElementById('app'))
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register(`${GLOBALS.adminurl}/sw.js`, {
+    scope: `${GLOBALS.adminurl}/`
+  })
+    .then(reg => console.log('Service Worker registered. Scope is ' + reg.scope))
+    .catch(err => console.log('Service Worker could not register: ' + err))
+}

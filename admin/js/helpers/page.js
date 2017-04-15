@@ -15,12 +15,16 @@ import history from '../history'
 import { authJson, tokenHeader } from '../helpers/api'
 
 export function fetchPages (dispatch) {
+  dispatch({ type: 'LOADING_PAGES' })
+
   return fetch(`${GLOBALS.adminurl}/api/pages`, {
     headers: { ...tokenHeader() }
   })
     .then(authJson)
     .then(pages => dispatch({ type: 'SET_PAGES', pages }))
-    .catch(err => err.message === '401' ? dispatch({ type: 'LOGOUT' }) : null)
+    .catch(error => error.message === '401'
+      ? dispatch({ type: 'LOGOUT' })
+      : dispatch({ type: 'ERROR_PAGES', error }))
 }
 
 function encodeJson (data) {
@@ -67,6 +71,9 @@ export function savePage (dispatch, data) {
 
   // Encode arrays and objects to json strings
   data = encodeJson(data)
+
+  delete data['_clean']
+  delete data['_isNewPage']
 
   return fetch(`${GLOBALS.adminurl}/api/pages${pathStatic}${pathAppend}`, {
     method: isNew ? 'POST' : 'PUT',
