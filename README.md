@@ -1,4 +1,4 @@
-# WIP - Not everything in this README is available at the moment!
+# WIP - Not everything in this README is available at the moment and is subject to change!
 
 <h1 align="center">
 <img alt="jungledrom logo" src="https://github.com/hesselbom/jungledrum/raw/master/admin/static/logo.png" width="260" height="260">
@@ -173,6 +173,56 @@ By default jungledrum will look for a 404.html (or a page with the slug "404") a
 # Deploying
 Recommended way of running jungledrum on a server is through [forever](https://github.com/foreverjs/forever). Run the following command in your frontend directory and it should be up and running:
 `forever start -c "jungledrum" .`
+
+## nginx example config
+If you're running jungledrum on default port 3000 you could use the following config for a simple HTTPS (with the snippets and ssl conf set up according to [this](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-16-04)):
+```nginx
+server {
+    listen 80;
+    listen [::]:80;
+    server_name example.com;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    include snippets/ssl-server.example.com.conf;
+    include snippets/ssl-params.conf;
+    
+    root /var/www/example.com;
+    
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+    
+    location ~ /.well-known {
+        allow all;
+    }
+}
+```
+
+Or if HTTP (without SSL, not recommended) is enough for you, something like this would do:
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
 
 # Plugins
 TODO: Write more about plugins
