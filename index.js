@@ -14,7 +14,7 @@ try {
 } catch (_) {}
 
 let config = require('./lib/config').read(directory)
-let port = (config.port && parseInt(config.port)) || 80
+let port = (config.port && parseInt(config.port)) || 3000
 let salt = config.salt || 'jungledrum'
 let adminurl = '/' + (config.adminurl || '_admin')
 let name = config.name || 'jungledrum'
