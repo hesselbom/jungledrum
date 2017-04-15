@@ -72,7 +72,7 @@ Config for your website should be stored in `.jungleconfig`. Here is an example 
 ```
 
 # Admin
-Admin can be found on an admin url while jungledrum is running. By default this is *http://localhost/_admin* but this could be changed in `.jungleconfig`
+Admin can be found on an admin url while jungledrum is running. By default this is *http://localhost:3000/_admin* but this could be changed in `.jungleconfig`
 
 If `jungledrum setup` has not been run, or no "users" is found `.jungledb`, the admin won't require a login. It's recommended to run this setup though to add some admin users.
 
