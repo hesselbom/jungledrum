@@ -104,8 +104,7 @@ Here is an example config with all available options:
   "fields": [
     { "id": "preamble", "type": "text" },
     { "id": "content_a", "type": "textarea" },
-    { "id": "content_b", "type": "wysiwyg" },
-    { "id": "content_c", "type": "markdown" },
+    { "id": "content_b", "type": "markdown" },
     { "id": "avatar", "type": "image" },
     { "id": "file", "type": "file" },
     {

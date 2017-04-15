@@ -149,12 +149,12 @@ export function getInput (field, value, { onInput, path, onSelectFile } = {}) {
       onSelectFile={onSelectFile}
       value={value}
     />,
-    'wysiwyg': <WysiwygInput
-      label={field.name}
-      name={field.id}
-      onChange={onInput}
-      value={value}
-    />,
+    // 'wysiwyg': <WysiwygInput
+    //   label={field.name}
+    //   name={field.id}
+    //   onChange={onInput}
+    //   value={value}
+    // />,
     'image': <ImageInput
       label={field.name}
       name={field.id}
