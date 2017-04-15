@@ -15,7 +15,7 @@ try {
 
 let config = require('./lib/config').read(directory)
 let port = (config.port && parseInt(config.port)) || 3000
-let salt = config.salt || 'jungledrum'
+let secret = config.secret || 'jungledrum'
 let adminurl = '/' + (config.adminurl || '_admin')
 let name = config.name || 'jungledrum'
 let uploads = config.uploads || 'uploads'
@@ -30,11 +30,11 @@ let help = () => {
 }
 
 if (args.indexOf('setup') > -1) {
-  setup({ salt, directory })
+  setup({ secret, directory })
 } else if (args.indexOf('help') > -1) {
   help()
 } else if (args.indexOf('clean') > -1) {
   clean(directory)
 } else {
-  server({ port, directory, adminurl, name, uploads, salt })
+  server({ port, directory, adminurl, name, uploads, secret })
 }
