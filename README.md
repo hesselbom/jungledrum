@@ -68,7 +68,7 @@ Config for your website should be stored in `.jungleconfig`. Here is an example 
   "name": "Name of your website",
   "port": 3000,
   "adminurl": "_admin",
-  "salt": "xxx",
+  "secret": "xxx",
   "uploads": "xxx"
 }
 ```
