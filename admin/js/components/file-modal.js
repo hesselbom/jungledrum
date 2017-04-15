@@ -45,7 +45,7 @@ export default class FileModal extends Component {
   }
 
   onDelete (file) {
-    if (confirm(`Are you sure you want to delete the file ${file.name}?`)) {
+    if (window.confirm(`Are you sure you want to delete the file ${file.name}?`)) {
       this.props.dispatch({ type: 'DELETING_FILE', file })
 
       return fetch(`${GLOBALS.adminurl}/api/file/${file.name}`, {
