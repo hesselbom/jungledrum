@@ -26,7 +26,12 @@ npm install -g jungledrum
 ```
 
 # Run
-In the commandline go into the directory of your frontend code and run `jungledrum`. A server should now be running on the port specified in your `.jungleconfig` (default: 3000)
+In the commandline go into the directory of your frontend code and run:
+```
+jungledrum
+```
+
+A server should now be running on the port specified in your `.jungleconfig` (default: 3000)
 
 # Setup
 Running `jungledrum setup` in the commandline allows you to setup admin accounts for your cms. This is not required but extremely recommended to do.
