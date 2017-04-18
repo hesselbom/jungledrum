@@ -927,7 +927,9 @@ exports.default = function (_ref) {
       name = _ref.name,
       value = _ref.value,
       onChange = _ref.onChange,
-      props = _objectWithoutProperties(_ref, ['label', 'name', 'value', 'onChange']);
+      _ref$type = _ref.type,
+      type = _ref$type === undefined ? 'text' : _ref$type,
+      props = _objectWithoutProperties(_ref, ['label', 'name', 'value', 'onChange', 'type']);
 
   return _preact2.default.h(
     'div',
@@ -937,7 +939,7 @@ exports.default = function (_ref) {
       { 'for': name },
       label
     ),
-    _preact2.default.h('input', _extends({ type: 'text', id: name, name: name, value: value, onInput: onChange && function (ev) {
+    _preact2.default.h('input', _extends({ type: type, id: name, name: name, value: value, onInput: onChange && function (ev) {
         return onChange(ev.target.value);
       } }, props))
   );
@@ -1266,6 +1268,7 @@ function getInput(field, value) {
       onChange: onInput
     }),
     'default': _preact2.default.h(_textInput2.default, {
+      type: field.type,
       label: field.name,
       name: field.id,
       onChange: onInput,

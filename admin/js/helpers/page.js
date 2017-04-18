@@ -203,6 +203,7 @@ export function getInput (field, value, { onInput, path, onSelectFile } = {}) {
       onChange={onInput}
     />,
     'default': <TextInput
+      type={field.type}
       label={field.name}
       name={field.id}
       onChange={onInput}
