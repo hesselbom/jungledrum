@@ -1,6 +1,6 @@
 {
   "name": "jungledrum",
-  "version": "0.6.5",
+  "version": "0.7.0",
   "description": "Command line super simple CMS",
   "main": "index.js",
   "watch": {
@@ -68,6 +68,7 @@
     "prompt": "^1.0.0",
     "pug": "^2.0.0-beta10",
     "pug-lexer": "^2.3.2",
+    "sharp": "^0.17.3",
     "shortid": "^2.2.6",
     "slug": "^0.9.1",
     "yesno": "0.0.1"

@@ -169,6 +169,12 @@ Provides an array of all pages to be able to list and filter pages. Usable for a
 `websitename`
 The name of the website. The "name" field specified in .jungleconfig. Default is "jungledrum".
 
+`asset(file)`
+Method for getting asset path. Example: `asset("file.jpg")` => `/uploads/file.jpg`
+
+`resize(file, width, height)`
+Resize image to specified width and height. If `height` is omitted it will be the same as `width`.
+
 # 404 page
 By default jungledrum will look for a 404.html (or a page with the slug "404") as a 404 Not Found page. If not found it will look for a general error.html (or a page with the slug "error").
 
