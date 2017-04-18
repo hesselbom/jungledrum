@@ -29,10 +29,10 @@ const onRouteChange = (props) => {
   }
 }
 const LoggedIn = connect(state => state)(
-  ({user, children}) => user.token ? children[0] : <LoginView />
+  ({user, children}) => user.token || GLOBALS.requiresLogin === false ? children[0] : <LoginView />
 )
 
-if (Cookies.get('jungletoken')) {
+if (Cookies.get('jungletoken') || GLOBALS.requiresLogin === false) {
   store.dispatch({ type: 'LOGGED_IN', token: Cookies.get('jungletoken') })
 
   fetch(`${GLOBALS.adminurl}/api/me`, {

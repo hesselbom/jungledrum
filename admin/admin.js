@@ -74,10 +74,10 @@ var LoggedIn = (0, _preactRedux.connect)(function (state) {
 })(function (_ref) {
   var user = _ref.user,
       children = _ref.children;
-  return user.token ? children[0] : _preact2.default.h(_loginView2.default, null);
+  return user.token || GLOBALS.requiresLogin === false ? children[0] : _preact2.default.h(_loginView2.default, null);
 });
 
-if (_jsCookie2.default.get('jungletoken')) {
+if (_jsCookie2.default.get('jungletoken') || GLOBALS.requiresLogin === false) {
   _store2.default.dispatch({ type: 'LOGGED_IN', token: _jsCookie2.default.get('jungletoken') });
 
   fetch(GLOBALS.adminurl + '/api/me', {
