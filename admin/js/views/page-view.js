@@ -87,7 +87,7 @@ class PageView extends Component {
         let plugin = plugins[field.type]
         let instance = plugin && plugin.field && plugin.field()
 
-        if (instance && instance.render && instance.getValue) {
+        if (instance && (instance.render || instance.hyperscript) && instance.getValue) {
           this.customFields[path] = {
             ...field,
             instance

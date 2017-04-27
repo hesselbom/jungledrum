@@ -256,25 +256,40 @@ var CustomInput = function (_Component) {
   _inherits(CustomInput, _Component);
 
   function CustomInput() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, CustomInput);
 
-    return _possibleConstructorReturn(this, (CustomInput.__proto__ || Object.getPrototypeOf(CustomInput)).apply(this, arguments));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CustomInput.__proto__ || Object.getPrototypeOf(CustomInput)).call.apply(_ref, [this].concat(args))), _this), _this.onChange = function () {
+      _this.props.onChange(_this.props.instance.getValue());
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(CustomInput, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.containerId = 'custom-' + _shortid2.default.generate();
+    }
+  }, {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(props) {
-      return props.type !== this.props.type || props.value !== this.props.value;
+      return props.instance.hyperscript || props.type !== this.props.type || props.value !== this.props.value;
     }
   }, {
     key: 'render',
-    value: function render(_ref) {
+    value: function render(_ref2) {
       var _this2 = this;
 
-      var label = _ref.label,
-          name = _ref.name,
-          value = _ref.value,
-          instance = _ref.instance;
+      var label = _ref2.label,
+          name = _ref2.name,
+          value = _ref2.value,
+          instance = _ref2.instance;
 
       if (instance.setup) {
         setTimeout(function () {
@@ -282,24 +297,22 @@ var CustomInput = function (_Component) {
         }, 0);
       }
 
-      var containerId = 'custom-' + _shortid2.default.generate();
-
       return _preact2.default.h(
         'div',
-        { className: 'custom-input' },
+        { className: 'custom-input', id: this.containerId },
         _preact2.default.h(
           'label',
           { 'for': name },
           label
         ),
         _preact2.default.h('div', {
-          id: containerId,
           className: 'markup',
           ref: function ref(r) {
             _this2.ref = r;
           },
-          dangerouslySetInnerHTML: { __html: instance.render(value, { containerId: containerId }) }
-        })
+          dangerouslySetInnerHTML: instance.render ? { __html: instance.render(value, { containerId: this.containerId }) } : null
+        }),
+        instance.hyperscript(_preact.h, value, this.onChange)
       );
     }
   }]);
@@ -1212,6 +1225,7 @@ function getInput(field, value) {
       id: field.id,
       value: value,
       type: field.type,
+      onChange: onInput,
       instance: field.instance
     });
   }
@@ -2277,7 +2291,7 @@ var PageView = function (_Component) {
           var plugin = plugins[field.type];
           var instance = plugin && plugin.field && plugin.field();
 
-          if (instance && instance.render && instance.getValue) {
+          if (instance && (instance.render || instance.hyperscript) && instance.getValue) {
             _this.customFields[path] = _extends({}, field, {
               instance: instance
             });

@@ -1,9 +1,17 @@
-import { Component } from 'preact'
+import { h, Component } from 'preact'
 import shortid from 'shortid'
 
 export default class CustomInput extends Component {
+  componentWillMount () {
+    this.containerId = `custom-${shortid.generate()}`
+  }
+
   shouldComponentUpdate (props) {
-    return props.type !== this.props.type || props.value !== this.props.value
+    return props.instance.hyperscript || props.type !== this.props.type || props.value !== this.props.value
+  }
+
+  onChange = () => {
+    this.props.onChange(this.props.instance.getValue())
   }
 
   render ({label, name, value, instance}) {
@@ -11,16 +19,14 @@ export default class CustomInput extends Component {
       setTimeout(() => instance.setup(this.ref), 0)
     }
 
-    const containerId = `custom-${shortid.generate()}`
-
-    return <div className='custom-input'>
+    return <div className='custom-input' id={this.containerId}>
       <label for={name}>{label}</label>
       <div
-        id={containerId}
         className='markup'
         ref={r => { this.ref = r }}
-        dangerouslySetInnerHTML={{__html: instance.render(value, { containerId })}}
+        dangerouslySetInnerHTML={instance.render ? {__html: instance.render(value, { containerId: this.containerId })} : null}
       />
+      {instance.hyperscript(h, value, this.onChange)}
     </div>
   }
 }

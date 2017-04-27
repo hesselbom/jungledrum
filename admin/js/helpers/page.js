@@ -130,6 +130,7 @@ export function getInput (field, value, { onInput, path, onSelectFile, getCustom
       id={field.id}
       value={value}
       type={field.type}
+      onChange={onInput}
       instance={field.instance}
     />
   }
