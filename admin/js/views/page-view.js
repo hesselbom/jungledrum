@@ -8,6 +8,7 @@ import ActionButton from '../components/action-button'
 import HamburgerButton from '../components/hamburger-button'
 import FileModal from '../components/file-modal'
 import { deletePage, savePage, getInput, isInputCustom } from '../helpers/page'
+import { setJsonPath } from '../helpers/utils'
 
 let setPageTemplate = dispatch => template => {
   dispatch({ type: 'SET_PAGE_TEMPLATE', template })
@@ -44,11 +45,9 @@ class PageView extends Component {
     let fields = (template.fields || [])
     let data = { ...page }
 
-    fields.forEach((_, i) => {
-      let field = this.customFields[i]
-      if (field && field.instance) {
-        data[field.id] = field.instance.getValue()
-      }
+    Object.keys(this.customFields).forEach(path => {
+      let value = this.customFields[path].instance.getValue()
+      data = setJsonPath(data, path, value)
     })
 
     return data
@@ -71,36 +70,34 @@ class PageView extends Component {
 
   componentWillMount () {
     this.mounted = true
-    this.setupCustomFields(this.props)
+    this.clearCustomFields()
   }
 
   componentWillUnmount () {
     this.mounted = false
   }
 
-  setupCustomFields (props) {
-    if (!(props.templates && props.templates.templates)) return
+  clearCustomFields () {
+    this.customFields = {}
+  }
 
-    let templateKeys = Object.keys(props.templates.templates)
-    let templateKey = props.page._template || templateKeys[0]
-    let template = props.templates.templates[templateKey] || {}
-    let fields = (template.fields || [])
-
-    this.customFields = []
-
-    fields.forEach((field, i) => {
-      if (isInputCustom(field.type)) {
+  getCustomField = (path, field) => {
+    if (isInputCustom(field.type)) {
+      if (this.customFields[path] == null) {
         let plugin = plugins[field.type]
         let instance = plugin && plugin.field && plugin.field()
 
         if (instance && instance.render && instance.getValue) {
-          this.customFields[i] = {
+          this.customFields[path] = {
             ...field,
             instance
           }
         }
       }
-    })
+
+      return this.customFields[path] || field
+    }
+    return field
   }
 
   render ({page, pages, templates, editing, newPage = false, file, dispatch}) {
@@ -120,10 +117,6 @@ class PageView extends Component {
         </header>
         <div className='content'><p>Page not found</p></div>
       </section>
-    }
-
-    if (this.customFields == null || this.customFields.length === 0) {
-      this.setupCustomFields(this.props)
     }
 
     let templateKeys = Object.keys(templates.templates)
@@ -158,11 +151,12 @@ class PageView extends Component {
         {!page._static ? <TextInput label='Slug' name='_slug' value={page._slug} onChange={onInput(dispatch, '_slug')} /> : null}
         {
           fields.map((field, i) => getInput(
-            (this.customFields && this.customFields[i]) || field,
+            this.getCustomField(field.id, field),
             page[field.id],
             {
               onInput: onInput(dispatch, field.id),
-              onSelectFile: onSelectFile(dispatch)
+              onSelectFile: onSelectFile(dispatch),
+              getCustomField: this.getCustomField
             }
           ))
         }

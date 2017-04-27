@@ -15,7 +15,8 @@ const onLogoClick = (dispatch) => () => {
   history.push(`${GLOBALS.adminurl}/`)
 }
 
-let view = ({templates, snackbars, pages, children, pageid, path, menu, user, dispatch}) => {
+let view = (props) => {
+  let {templates, snackbars, pages, child, pageid, path, menu, user, dispatch} = props
   let templatesAvailable = Object.keys(templates.templates).length > 0
 
   return <div className={`app-view ${menu.open ? '-menuopen' : ''}`}>
@@ -54,7 +55,7 @@ let view = ({templates, snackbars, pages, children, pageid, path, menu, user, di
       }
     </div>
     <div className='content'>
-      {children}
+      {child && child(props)}
     </div>
     <div className='overlay' onClick={() => dispatch({ type: 'CLOSE_MENU' })} />
     <div className='snackbar-list'>

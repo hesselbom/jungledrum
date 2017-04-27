@@ -5,7 +5,7 @@ const onInput = (obj, id, onChange) => value => {
   onChange(obj)
 }
 
-export default ({path, field, label, value, onChange, onSelectFile}) => {
+export default ({path, field, label, value, onChange, onSelectFile, getCustomField}) => {
   let obj = value || {}
   if (typeof value === 'string') {
     try { obj = JSON.parse(value) } catch (err) { obj = {} }
@@ -17,12 +17,13 @@ export default ({path, field, label, value, onChange, onSelectFile}) => {
       {field.fields.map((f, i) => {
         let _path = (path || []).concat(f.id)
         return getInput(
-          f,
+          getCustomField(_path, f),
           obj[f.id],
           {
             onInput: onInput(obj, f.id, onChange),
             onSelectFile,
-            path: _path
+            path: _path,
+            getCustomField
           }
         )
       })}

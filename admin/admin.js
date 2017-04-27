@@ -100,8 +100,12 @@ var routes = _preact2.default.h(
     _preact2.default.h(
       _preactRouter.Router,
       { onChange: onRouteChange, history: _history2.default },
-      _preact2.default.h(_appView2.default, { path: GLOBALS.adminurl + '/page/:pageid', children: _preact2.default.h(_pageView2.default, null) }),
-      _preact2.default.h(_appView2.default, { path: GLOBALS.adminurl + '/new', children: _preact2.default.h(_pageView2.default, { newPage: true }) }),
+      _preact2.default.h(_appView2.default, { path: GLOBALS.adminurl + '/page/:pageid', child: function child(props) {
+          return _preact2.default.h(_pageView2.default, { key: props.matches.pageid });
+        } }),
+      _preact2.default.h(_appView2.default, { path: GLOBALS.adminurl + '/new', child: function child(props) {
+          return _preact2.default.h(_pageView2.default, { newPage: true });
+        } }),
       _preact2.default.h(_appView2.default, { 'default': true, children: _preact2.default.h(_noPage2.default, null) })
     )
   )
@@ -685,9 +689,11 @@ exports.default = function (_ref2) {
       label = _ref2.label,
       value = _ref2.value,
       onChange = _ref2.onChange,
-      onSelectFile = _ref2.onSelectFile;
+      onSelectFile = _ref2.onSelectFile,
+      getCustomField = _ref2.getCustomField;
 
   var list = value || [];
+  var subfield = field.field || { type: 'text' };
   if (typeof value === 'string') {
     try {
       list = JSON.parse(value);
@@ -709,10 +715,11 @@ exports.default = function (_ref2) {
       { className: 'list' },
       list.map(function (item, i) {
         var _path = (path || []).concat(i);
-        return (0, _page.getInput)(field.field, item, {
+        return (0, _page.getInput)(getCustomField(_path, subfield), item, {
           onInput: onInput(list, i, onChange),
           onSelectFile: onSelectFile,
-          path: _path
+          path: _path,
+          getCustomField: getCustomField
         });
       }),
       _preact2.default.h(
@@ -784,7 +791,8 @@ exports.default = function (_ref) {
       label = _ref.label,
       value = _ref.value,
       onChange = _ref.onChange,
-      onSelectFile = _ref.onSelectFile;
+      onSelectFile = _ref.onSelectFile,
+      getCustomField = _ref.getCustomField;
 
   var obj = value || {};
   if (typeof value === 'string') {
@@ -808,10 +816,11 @@ exports.default = function (_ref) {
       { className: 'fields' },
       field.fields.map(function (f, i) {
         var _path = (path || []).concat(f.id);
-        return (0, _page.getInput)(f, obj[f.id], {
+        return (0, _page.getInput)(getCustomField(_path, f), obj[f.id], {
           onInput: onInput(obj, f.id, onChange),
           onSelectFile: onSelectFile,
-          path: _path
+          path: _path,
+          getCustomField: getCustomField
         });
       })
     )
@@ -1185,7 +1194,8 @@ function getInput(field, value) {
   var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
       onInput = _ref.onInput,
       path = _ref.path,
-      onSelectFile = _ref.onSelectFile;
+      onSelectFile = _ref.onSelectFile,
+      getCustomField = _ref.getCustomField;
 
   if (isInputCustom(field.type) && field.instance) {
     return _preact2.default.h(_customInput2.default, {
@@ -1193,7 +1203,6 @@ function getInput(field, value) {
       label: field.name,
       name: field.id,
       id: field.id,
-      onChange: onInput,
       value: value,
       type: field.type,
       instance: field.instance
@@ -1209,7 +1218,8 @@ function getInput(field, value) {
       path: path != null ? path : [field.id],
       onChange: onInput,
       onSelectFile: onSelectFile,
-      value: value
+      value: value,
+      getCustomField: getCustomField
     }),
     'object': _preact2.default.h(_objectInput2.default, {
       field: field,
@@ -1219,7 +1229,8 @@ function getInput(field, value) {
       path: path != null ? path : [field.id],
       onChange: onInput,
       onSelectFile: onSelectFile,
-      value: value
+      value: value,
+      getCustomField: getCustomField
     }),
     // 'wysiwyg': <WysiwygInput
     //   label={field.name}
@@ -1338,9 +1349,32 @@ function fetchTemplates(dispatch) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 exports.objSwitch = objSwitch;
+exports.setJsonPath = setJsonPath;
 function objSwitch(value, obj) {
   return obj[value] || obj['default'];
+}
+
+function setJsonPath(obj, path, value) {
+  var o = _extends({}, obj);
+  var current = o;
+  var parts = path.split(',');
+
+  parts.forEach(function (part, i) {
+    if (i === parts.length - 1) {
+      current[part] = value;
+      return;
+    }
+
+    if (typeof current[part] === 'string') current[part] = JSON.parse(current[part]);
+    if (!current[part]) current[part] = {};
+    current = current[part];
+  });
+
+  return o;
 }
 
 },{}],21:[function(require,module,exports){
@@ -1879,16 +1913,16 @@ var onLogoClick = function onLogoClick(dispatch) {
   };
 };
 
-var view = function view(_ref) {
-  var templates = _ref.templates,
-      snackbars = _ref.snackbars,
-      pages = _ref.pages,
-      children = _ref.children,
-      pageid = _ref.pageid,
-      path = _ref.path,
-      menu = _ref.menu,
-      user = _ref.user,
-      dispatch = _ref.dispatch;
+var view = function view(props) {
+  var templates = props.templates,
+      snackbars = props.snackbars,
+      pages = props.pages,
+      child = props.child,
+      pageid = props.pageid,
+      path = props.path,
+      menu = props.menu,
+      user = props.user,
+      dispatch = props.dispatch;
 
   var templatesAvailable = Object.keys(templates.templates).length > 0;
 
@@ -1963,7 +1997,7 @@ var view = function view(_ref) {
     _preact2.default.h(
       'div',
       { className: 'content' },
-      children
+      child && child(props)
     ),
     _preact2.default.h('div', { className: 'overlay', onClick: function onClick() {
         return dispatch({ type: 'CLOSE_MENU' });
@@ -2184,6 +2218,8 @@ var _fileModal2 = _interopRequireDefault(_fileModal);
 
 var _page = require('../helpers/page');
 
+var _utils = require('../helpers/utils');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2218,9 +2254,33 @@ var PageView = function (_Component) {
   _inherits(PageView, _Component);
 
   function PageView() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, PageView);
 
-    return _possibleConstructorReturn(this, (PageView.__proto__ || Object.getPrototypeOf(PageView)).apply(this, arguments));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PageView.__proto__ || Object.getPrototypeOf(PageView)).call.apply(_ref, [this].concat(args))), _this), _this.getCustomField = function (path, field) {
+      if ((0, _page.isInputCustom)(field.type)) {
+        if (_this.customFields[path] == null) {
+          var plugin = plugins[field.type];
+          var instance = plugin && plugin.field && plugin.field();
+
+          if (instance && instance.render && instance.getValue) {
+            _this.customFields[path] = _extends({}, field, {
+              instance: instance
+            });
+          }
+        }
+
+        return _this.customFields[path] || field;
+      }
+      return field;
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(PageView, [{
@@ -2249,11 +2309,9 @@ var PageView = function (_Component) {
       var fields = template.fields || [];
       var data = _extends({}, page);
 
-      fields.forEach(function (_, i) {
-        var field = _this2.customFields[i];
-        if (field && field.instance) {
-          data[field.id] = field.instance.getValue();
-        }
+      Object.keys(this.customFields).forEach(function (path) {
+        var value = _this2.customFields[path].instance.getValue();
+        data = (0, _utils.setJsonPath)(data, path, value);
       });
 
       return data;
@@ -2281,7 +2339,7 @@ var PageView = function (_Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.mounted = true;
-      this.setupCustomFields(this.props);
+      this.clearCustomFields();
     }
   }, {
     key: 'componentWillUnmount',
@@ -2289,45 +2347,23 @@ var PageView = function (_Component) {
       this.mounted = false;
     }
   }, {
-    key: 'setupCustomFields',
-    value: function setupCustomFields(props) {
-      var _this4 = this;
-
-      if (!(props.templates && props.templates.templates)) return;
-
-      var templateKeys = Object.keys(props.templates.templates);
-      var templateKey = props.page._template || templateKeys[0];
-      var template = props.templates.templates[templateKey] || {};
-      var fields = template.fields || [];
-
-      this.customFields = [];
-
-      fields.forEach(function (field, i) {
-        if ((0, _page.isInputCustom)(field.type)) {
-          var plugin = plugins[field.type];
-          var instance = plugin && plugin.field && plugin.field();
-
-          if (instance && instance.render && instance.getValue) {
-            _this4.customFields[i] = _extends({}, field, {
-              instance: instance
-            });
-          }
-        }
-      });
+    key: 'clearCustomFields',
+    value: function clearCustomFields() {
+      this.customFields = {};
     }
   }, {
     key: 'render',
-    value: function render(_ref) {
-      var _this5 = this;
+    value: function render(_ref2) {
+      var _this4 = this;
 
-      var page = _ref.page,
-          pages = _ref.pages,
-          templates = _ref.templates,
-          editing = _ref.editing,
-          _ref$newPage = _ref.newPage,
-          newPage = _ref$newPage === undefined ? false : _ref$newPage,
-          file = _ref.file,
-          dispatch = _ref.dispatch;
+      var page = _ref2.page,
+          pages = _ref2.pages,
+          templates = _ref2.templates,
+          editing = _ref2.editing,
+          _ref2$newPage = _ref2.newPage,
+          newPage = _ref2$newPage === undefined ? false : _ref2$newPage,
+          file = _ref2.file,
+          dispatch = _ref2.dispatch;
 
       if (pages.errorLoading || templates.errorLoading) {
         return _preact2.default.h(
@@ -2371,10 +2407,6 @@ var PageView = function (_Component) {
         );
       }
 
-      if (this.customFields == null || this.customFields.length === 0) {
-        this.setupCustomFields(this.props);
-      }
-
       var templateKeys = Object.keys(templates.templates);
       var templateKey = page._template || templateKeys[0];
       var template = templates.templates[templateKey] || {};
@@ -2415,9 +2447,10 @@ var PageView = function (_Component) {
           !page._static ? _preact2.default.h(_textInput2.default, { label: 'Title', name: '_title', value: page._title, onChange: onInput(dispatch, '_title') }) : null,
           !page._static ? _preact2.default.h(_textInput2.default, { label: 'Slug', name: '_slug', value: page._slug, onChange: onInput(dispatch, '_slug') }) : null,
           fields.map(function (field, i) {
-            return (0, _page.getInput)(_this5.customFields && _this5.customFields[i] || field, page[field.id], {
+            return (0, _page.getInput)(_this4.getCustomField(field.id, field), page[field.id], {
               onInput: onInput(dispatch, field.id),
-              onSelectFile: onSelectFile(dispatch)
+              onSelectFile: onSelectFile(dispatch),
+              getCustomField: _this4.getCustomField
             });
           })
         ),
@@ -2439,7 +2472,7 @@ exports.default = (0, _preactRedux.connect)(function (store) {
   };
 })(PageView);
 
-},{"../components/action-button":2,"../components/checkbox-input":3,"../components/file-modal":6,"../components/hamburger-button":7,"../components/select-input":12,"../components/text-input":14,"../helpers/page":17,"preact":58,"preact-redux":56}],37:[function(require,module,exports){
+},{"../components/action-button":2,"../components/checkbox-input":3,"../components/file-modal":6,"../components/hamburger-button":7,"../components/select-input":12,"../components/text-input":14,"../helpers/page":17,"../helpers/utils":20,"preact":58,"preact-redux":56}],37:[function(require,module,exports){
 /*!
   Copyright (c) 2016 Jed Watson.
   Licensed under the MIT License (MIT), see

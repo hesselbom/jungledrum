@@ -1,6 +1,6 @@
 {
   "name": "jungledrum",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Command line super simple CMS",
   "main": "index.js",
   "watch": {
@@ -48,7 +48,7 @@
     "glob": "^7.1.1",
     "jsonfile": "^2.4.0",
     "jsonwebtoken": "^7.3.0",
-    "junglet": "^1.1.0",
+    "junglet": "^1.2.2",
     "katex": "^0.7.1",
     "markdown-it": "^8.2.2",
     "markdown-it-abbr": "^1.0.4",

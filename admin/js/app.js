@@ -49,8 +49,8 @@ const routes = (
   <Provider store={store}>
     <LoggedIn>
       <Router onChange={onRouteChange} history={history}>
-        <AppView path={`${GLOBALS.adminurl}/page/:pageid`} children={<PageView />} />
-        <AppView path={`${GLOBALS.adminurl}/new`} children={<PageView newPage />} />
+        <AppView path={`${GLOBALS.adminurl}/page/:pageid`} child={props => <PageView key={props.matches.pageid} />} />
+        <AppView path={`${GLOBALS.adminurl}/new`} child={props => <PageView newPage />} />
         <AppView default children={<NoPage />} />
       </Router>
     </LoggedIn>

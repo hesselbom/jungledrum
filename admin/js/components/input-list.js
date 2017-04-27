@@ -1,4 +1,5 @@
-import { getInput } from '../helpers/page'
+import { Component } from 'preact'
+import { getInput, isInputCustom } from '../helpers/page'
 
 import ActionButton from '../components/action-button'
 
@@ -12,8 +13,9 @@ const onInput = (list, i, onChange) => value => {
   onChange(list)
 }
 
-export default ({path, field, label, value, onChange, onSelectFile}) => {
+export default ({path, field, label, value, onChange, onSelectFile, getCustomField}) => {
   let list = value || []
+  let subfield = field.field || { type: 'text' }
   if (typeof value === 'string') {
     try { list = JSON.parse(value) } catch (err) { list = [] }
   }
@@ -24,12 +26,13 @@ export default ({path, field, label, value, onChange, onSelectFile}) => {
       {list.map((item, i) => {
         let _path = (path || []).concat(i)
         return getInput(
-          field.field,
+          getCustomField(_path, subfield),
           item,
           {
             onInput: onInput(list, i, onChange),
             onSelectFile,
-            path: _path
+            path: _path,
+            getCustomField
           }
         )
       })}
