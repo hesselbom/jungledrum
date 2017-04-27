@@ -1,5 +1,4 @@
-import { Component } from 'preact'
-import { getInput, isInputCustom } from '../helpers/page'
+import { getInput } from '../helpers/page'
 
 import ActionButton from '../components/action-button'
 
