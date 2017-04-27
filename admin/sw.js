@@ -2,7 +2,7 @@
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
-    caches.open('jungledrum-sw-v0.8.0').then(function (cache) {
+    caches.open('jungledrum-sw-v0.8.1').then(function (cache) {
       return cache.addAll([
         './',
         'admin.css',
