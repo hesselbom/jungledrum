@@ -74,6 +74,7 @@ export function savePage (dispatch, data) {
 
   delete data['_clean']
   delete data['_isNewPage']
+  delete data['_displayMetadata']
 
   return fetch(`${GLOBALS.adminurl}/api/pages${pathStatic}${pathAppend}`, {
     method: isNew ? 'POST' : 'PUT',

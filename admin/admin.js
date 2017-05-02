@@ -1188,6 +1188,7 @@ function savePage(dispatch, data) {
 
   delete data['_clean'];
   delete data['_isNewPage'];
+  delete data['_displayMetadata'];
 
   return fetch(GLOBALS.adminurl + '/api/pages' + pathStatic + pathAppend, {
     method: isNew ? 'POST' : 'PUT',
@@ -1715,7 +1716,8 @@ exports.default = function () {
     case 'SET_PAGE':
       return _extends({}, action.page || {}, {
         _isNewPage: false,
-        _clean: true
+        _clean: true,
+        _displayMetadata: state._displayMetadata
       });
     case 'SET_PAGES':
       return state._isNewPage ? _extends({}, state, {
@@ -1723,12 +1725,14 @@ exports.default = function () {
       }) : _extends({}, action.pages.find(function (p) {
         return p._id === state._id;
       }) || {}, {
-        _clean: true
+        _clean: true,
+        _displayMetadata: state._displayMetadata
       });
     case 'NEW_PAGE':
       return {
         _title: 'New page',
-        _isNewPage: true
+        _isNewPage: true,
+        _displayMetadata: true
       };
     case 'SET_PAGE_TEMPLATE':
       return _extends({}, state, {
@@ -1745,6 +1749,10 @@ exports.default = function () {
     case 'SET_CLEAN_PAGE':
       return _extends({}, state, {
         _clean: action.clean
+      });
+    case 'TOGGLE_METADATA':
+      return _extends({}, state, {
+        _displayMetadata: state._displayMetadata == null ? false : !state._displayMetadata
       });
   }
   return state;
@@ -2237,6 +2245,10 @@ var _preact2 = _interopRequireDefault(_preact);
 
 var _preactRedux = require('preact-redux');
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _textInput = require('../components/text-input');
 
 var _textInput2 = _interopRequireDefault(_textInput);
@@ -2481,18 +2493,37 @@ var PageView = function (_Component) {
         _preact2.default.h(
           'div',
           { className: 'content' },
-          templateKeys.length > 0 && !page._static ? _preact2.default.h(_selectInput2.default, {
-            label: 'Template',
-            name: '_template',
-            options: templateKeys.map(function (key) {
-              return { value: key, label: templates.templates[key].name || key };
-            }),
-            value: templateKey,
-            onChange: setPageTemplate(dispatch)
-          }) : null,
-          _preact2.default.h(_checkboxInput2.default, { label: 'Is Homepage', name: '_home', checked: page._home, onChange: onInput(dispatch, '_home') }),
+          _preact2.default.h(
+            'section',
+            { className: (0, _classnames2.default)('metadata-block', { '-closed': page._displayMetadata === false }) },
+            _preact2.default.h(
+              'header',
+              { className: 'header', onClick: function onClick() {
+                  return dispatch({ type: 'TOGGLE_METADATA' });
+                } },
+              _preact2.default.h(
+                'h2',
+                null,
+                'Metadata'
+              )
+            ),
+            _preact2.default.h(
+              'div',
+              { className: 'content' },
+              templateKeys.length > 0 && !page._static ? _preact2.default.h(_selectInput2.default, {
+                label: 'Template',
+                name: '_template',
+                options: templateKeys.map(function (key) {
+                  return { value: key, label: templates.templates[key].name || key };
+                }),
+                value: templateKey,
+                onChange: setPageTemplate(dispatch)
+              }) : null,
+              _preact2.default.h(_checkboxInput2.default, { label: 'Is Homepage', name: '_home', checked: page._home, onChange: onInput(dispatch, '_home') }),
+              !page._static ? _preact2.default.h(_textInput2.default, { label: 'Slug', name: '_slug', value: page._slug, onChange: onInput(dispatch, '_slug') }) : null
+            )
+          ),
           !page._static ? _preact2.default.h(_textInput2.default, { label: 'Title', name: '_title', value: page._title, onChange: onInput(dispatch, '_title') }) : null,
-          !page._static ? _preact2.default.h(_textInput2.default, { label: 'Slug', name: '_slug', value: page._slug, onChange: onInput(dispatch, '_slug') }) : null,
           fields.map(function (field, i) {
             return (0, _page.getInput)(_this4.getCustomField(field.id, field), page[field.id], {
               onInput: onInput(dispatch, field.id),
@@ -2520,7 +2551,7 @@ exports.default = (0, _preactRedux.connect)(function (store) {
   };
 })(PageView);
 
-},{"../components/action-button":2,"../components/checkbox-input":3,"../components/file-modal":6,"../components/hamburger-button":7,"../components/select-input":12,"../components/text-input":14,"../helpers/page":17,"../helpers/utils":20,"preact":58,"preact-redux":56}],37:[function(require,module,exports){
+},{"../components/action-button":2,"../components/checkbox-input":3,"../components/file-modal":6,"../components/hamburger-button":7,"../components/select-input":12,"../components/text-input":14,"../helpers/page":17,"../helpers/utils":20,"classnames":37,"preact":58,"preact-redux":56}],37:[function(require,module,exports){
 /*!
   Copyright (c) 2016 Jed Watson.
   Licensed under the MIT License (MIT), see

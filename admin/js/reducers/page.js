@@ -29,7 +29,8 @@ export default (state = {}, action) => {
     case 'SET_PAGE': return {
       ...(action.page || {}),
       _isNewPage: false,
-      _clean: true
+      _clean: true,
+      _displayMetadata: state._displayMetadata
     }
     case 'SET_PAGES': return state._isNewPage
       ? {
@@ -38,11 +39,13 @@ export default (state = {}, action) => {
       }
       : {
         ...(action.pages.find(p => p._id === state._id) || {}),
-        _clean: true
+        _clean: true,
+        _displayMetadata: state._displayMetadata
       }
     case 'NEW_PAGE': return {
       _title: 'New page',
-      _isNewPage: true
+      _isNewPage: true,
+      _displayMetadata: true
     }
     case 'SET_PAGE_TEMPLATE': return {
       ...state,
@@ -59,6 +62,10 @@ export default (state = {}, action) => {
     case 'SET_CLEAN_PAGE': return {
       ...state,
       _clean: action.clean
+    }
+    case 'TOGGLE_METADATA': return {
+      ...state,
+      _displayMetadata: state._displayMetadata == null ? false : !state._displayMetadata
     }
   }
   return state

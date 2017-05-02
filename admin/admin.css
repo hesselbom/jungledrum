@@ -3227,6 +3227,25 @@ a {
   background-position: center;
   background-repeat: no-repeat; }
 
+.metadata-block {
+  background: #ddd;
+  margin-bottom: 1.5em; }
+  .metadata-block > .header {
+    background: #bbb;
+    padding: .75rem 1rem;
+    cursor: pointer; }
+    .metadata-block > .header > h2 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1;
+      font-weight: normal; }
+  .metadata-block > .content {
+    padding: 1rem; }
+    .metadata-block > .content > *:last-child {
+      margin-bottom: 0; }
+  .metadata-block.-closed > .content {
+    display: none; }
+
 .no-page {
   min-height: 100%;
   background: #eee;
