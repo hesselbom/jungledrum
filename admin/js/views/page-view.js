@@ -81,6 +81,10 @@ class PageView extends Component {
     this.customFields = {}
   }
 
+  clearCustomField = (path) => {
+    delete this.customFields[path]
+  }
+
   getCustomField = (path, field) => {
     if (isInputCustom(field.type)) {
       if (this.customFields[path] == null) {
@@ -156,7 +160,8 @@ class PageView extends Component {
             {
               onInput: onInput(dispatch, field.id),
               onSelectFile: onSelectFile(dispatch),
-              getCustomField: this.getCustomField
+              getCustomField: this.getCustomField,
+              clearCustomField: this.clearCustomField
             }
           ))
         }

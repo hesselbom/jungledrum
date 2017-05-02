@@ -7,12 +7,18 @@ const onAddItem = ({list, onChange}) => ev => {
   onChange(list)
 }
 
+const onRemoveItem = (i, {list, onChange, path, clearCustomField}) => ev => {
+  list.splice(i, 1)
+  onChange(list)
+  clearCustomField(path)
+}
+
 const onInput = (list, i, onChange) => value => {
   list[i] = value
   onChange(list)
 }
 
-export default ({path, field, label, value, onChange, onSelectFile, getCustomField}) => {
+export default ({path, field, label, value, onChange, onSelectFile, getCustomField, clearCustomField}) => {
   let list = value || []
   let subfield = field.field || { type: 'text' }
   if (typeof value === 'string') {
@@ -32,9 +38,11 @@ export default ({path, field, label, value, onChange, onSelectFile, getCustomFie
               onInput: onInput(list, i, onChange),
               onSelectFile,
               path: _path,
-              getCustomField
+              getCustomField,
+              clearCustomField
             }
           )}
+          <ActionButton label='Remove' title='Remove item' icon='close' tiny red onClick={onRemoveItem(i, {list, onChange, path: _path, clearCustomField})} />
         </div>
       })}
       <div className='add'><ActionButton label='Add item' icon='plus' onClick={onAddItem({list, onChange})} /></div>

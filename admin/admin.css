@@ -2826,6 +2826,7 @@ a {
     .action-button.-tiny > .text {
       font-size: .8rem; }
   .action-button.-red {
+    color: white;
     background: #e22b37; }
   .action-button.-gray {
     background: #eee; }
@@ -3129,7 +3130,17 @@ a {
   .input-list > .list {
     border: 1px solid #ccc; }
     .input-list > .list > .item {
-      padding: 1rem .5rem; }
+      padding: 1rem .5rem;
+      position: relative; }
+      .input-list > .list > .item > .action-button.-red {
+        position: absolute;
+        top: .5rem;
+        right: .5rem;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        -webkit-transition: opacity .2s ease, visibility .2s ease;
+        transition: opacity .2s ease, visibility .2s ease; }
       .input-list > .list > .item > .text-input:last-child, .input-list > .list > .item > .custom-input:last-child, .input-list > .list > .item > .file-input:last-child, .input-list > .list > .item > .image-input:last-child,
       .input-list > .list > .item > .custom-input:last-child,
       .input-list > .list > .item > .file-input:last-child,
@@ -3137,6 +3148,10 @@ a {
         margin-bottom: 0; }
       .input-list > .list > .item:nth-child(even) {
         background: #ddd; }
+      .input-list > .list > .item:hover > .action-button.-red {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto; }
     .input-list > .list > .add {
       margin: .5em auto;
       text-align: center; }

@@ -121,7 +121,7 @@ export function isInputCustom (type) {
   return !!plugins[type]
 }
 
-export function getInput (field, value, { onInput, path, onSelectFile, getCustomField } = {}) {
+export function getInput (field, value, { onInput, path, onSelectFile, getCustomField, clearCustomField } = {}) {
   if (isInputCustom(field.type) && field.instance) {
     return <CustomInput
       field={field}
@@ -146,6 +146,7 @@ export function getInput (field, value, { onInput, path, onSelectFile, getCustom
       onSelectFile={onSelectFile}
       value={value}
       getCustomField={getCustomField}
+      clearCustomField={clearCustomField}
     />,
     'object': <ObjectInput
       field={field}
@@ -157,6 +158,7 @@ export function getInput (field, value, { onInput, path, onSelectFile, getCustom
       onSelectFile={onSelectFile}
       value={value}
       getCustomField={getCustomField}
+      clearCustomField={clearCustomField}
     />,
     // 'wysiwyg': <WysiwygInput
     //   label={field.name}

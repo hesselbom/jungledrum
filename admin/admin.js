@@ -696,6 +696,18 @@ var onAddItem = function onAddItem(_ref) {
   };
 };
 
+var onRemoveItem = function onRemoveItem(i, _ref2) {
+  var list = _ref2.list,
+      onChange = _ref2.onChange,
+      path = _ref2.path,
+      clearCustomField = _ref2.clearCustomField;
+  return function (ev) {
+    list.splice(i, 1);
+    onChange(list);
+    clearCustomField(path);
+  };
+};
+
 var onInput = function onInput(list, i, onChange) {
   return function (value) {
     list[i] = value;
@@ -703,14 +715,15 @@ var onInput = function onInput(list, i, onChange) {
   };
 };
 
-exports.default = function (_ref2) {
-  var path = _ref2.path,
-      field = _ref2.field,
-      label = _ref2.label,
-      value = _ref2.value,
-      onChange = _ref2.onChange,
-      onSelectFile = _ref2.onSelectFile,
-      getCustomField = _ref2.getCustomField;
+exports.default = function (_ref3) {
+  var path = _ref3.path,
+      field = _ref3.field,
+      label = _ref3.label,
+      value = _ref3.value,
+      onChange = _ref3.onChange,
+      onSelectFile = _ref3.onSelectFile,
+      getCustomField = _ref3.getCustomField,
+      clearCustomField = _ref3.clearCustomField;
 
   var list = value || [];
   var subfield = field.field || { type: 'text' };
@@ -742,8 +755,10 @@ exports.default = function (_ref2) {
             onInput: onInput(list, i, onChange),
             onSelectFile: onSelectFile,
             path: _path,
-            getCustomField: getCustomField
-          })
+            getCustomField: getCustomField,
+            clearCustomField: clearCustomField
+          }),
+          _preact2.default.h(_actionButton2.default, { label: 'Remove', title: 'Remove item', icon: 'close', tiny: true, red: true, onClick: onRemoveItem(i, { list: list, onChange: onChange, path: _path, clearCustomField: clearCustomField }) })
         );
       }),
       _preact2.default.h(
@@ -816,7 +831,8 @@ exports.default = function (_ref) {
       value = _ref.value,
       onChange = _ref.onChange,
       onSelectFile = _ref.onSelectFile,
-      getCustomField = _ref.getCustomField;
+      getCustomField = _ref.getCustomField,
+      clearCustomField = _ref.clearCustomField;
 
   var obj = value || {};
   if (typeof value === 'string') {
@@ -844,7 +860,8 @@ exports.default = function (_ref) {
           onInput: onInput(obj, f.id, onChange),
           onSelectFile: onSelectFile,
           path: _path,
-          getCustomField: getCustomField
+          getCustomField: getCustomField,
+          clearCustomField: clearCustomField
         });
       })
     )
@@ -1219,7 +1236,8 @@ function getInput(field, value) {
       onInput = _ref.onInput,
       path = _ref.path,
       onSelectFile = _ref.onSelectFile,
-      getCustomField = _ref.getCustomField;
+      getCustomField = _ref.getCustomField,
+      clearCustomField = _ref.clearCustomField;
 
   if (isInputCustom(field.type) && field.instance) {
     return _preact2.default.h(_customInput2.default, {
@@ -1244,7 +1262,8 @@ function getInput(field, value) {
       onChange: onInput,
       onSelectFile: onSelectFile,
       value: value,
-      getCustomField: getCustomField
+      getCustomField: getCustomField,
+      clearCustomField: clearCustomField
     }),
     'object': _preact2.default.h(_objectInput2.default, {
       field: field,
@@ -1255,7 +1274,8 @@ function getInput(field, value) {
       onChange: onInput,
       onSelectFile: onSelectFile,
       value: value,
-      getCustomField: getCustomField
+      getCustomField: getCustomField,
+      clearCustomField: clearCustomField
     }),
     // 'wysiwyg': <WysiwygInput
     //   label={field.name}
@@ -2289,7 +2309,9 @@ var PageView = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PageView.__proto__ || Object.getPrototypeOf(PageView)).call.apply(_ref, [this].concat(args))), _this), _this.getCustomField = function (path, field) {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PageView.__proto__ || Object.getPrototypeOf(PageView)).call.apply(_ref, [this].concat(args))), _this), _this.clearCustomField = function (path) {
+      delete _this.customFields[path];
+    }, _this.getCustomField = function (path, field) {
       if ((0, _page.isInputCustom)(field.type)) {
         if (_this.customFields[path] == null) {
           var plugin = plugins[field.type];
@@ -2475,7 +2497,8 @@ var PageView = function (_Component) {
             return (0, _page.getInput)(_this4.getCustomField(field.id, field), page[field.id], {
               onInput: onInput(dispatch, field.id),
               onSelectFile: onSelectFile(dispatch),
-              getCustomField: _this4.getCustomField
+              getCustomField: _this4.getCustomField,
+              clearCustomField: _this4.clearCustomField
             });
           })
         ),

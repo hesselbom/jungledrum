@@ -10,6 +10,16 @@
 
     > .item
       padding: 1rem .5rem
+      position: relative
+
+      > .action-button.-red
+        position: absolute
+        top: .5rem
+        right: .5rem
+        opacity: 0
+        visibility: hidden
+        pointer-events: none
+        transition: opacity .2s ease, visibility .2s ease
 
       > .text-input,
       > .custom-input,
@@ -20,6 +30,12 @@
 
       &:nth-child(even)
         background: #ddd
+
+      &:hover
+        > .action-button.-red
+          opacity: 1
+          visibility: visible
+          pointer-events: auto
 
     > .add
       margin: .5em auto
