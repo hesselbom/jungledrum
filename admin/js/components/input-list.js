@@ -24,16 +24,18 @@ export default ({path, field, label, value, onChange, onSelectFile, getCustomFie
     <div className='list'>
       {list.map((item, i) => {
         let _path = (path || []).concat(i)
-        return getInput(
-          getCustomField(_path, subfield),
-          item,
-          {
-            onInput: onInput(list, i, onChange),
-            onSelectFile,
-            path: _path,
-            getCustomField
-          }
-        )
+        return <div className='item'>
+          {getInput(
+            getCustomField(_path, subfield),
+            item,
+            {
+              onInput: onInput(list, i, onChange),
+              onSelectFile,
+              path: _path,
+              getCustomField
+            }
+          )}
+        </div>
       })}
       <div className='add'><ActionButton label='Add item' icon='plus' onClick={onAddItem({list, onChange})} /></div>
     </div>

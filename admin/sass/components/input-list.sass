@@ -6,8 +6,20 @@
     margin-bottom: .25em
 
   > .list
-    padding: .5em
     border: 1px solid #ccc
+
+    > .item
+      padding: 1rem .5rem
+
+      > .text-input,
+      > .custom-input,
+      > .file-input,
+      > .image-input
+        &:last-child
+          margin-bottom: 0
+
+      &:nth-child(even)
+        background: #ddd
 
     > .add
       margin: .5em auto

@@ -3127,8 +3127,16 @@ a {
     display: block;
     margin-bottom: .25em; }
   .input-list > .list {
-    padding: .5em;
     border: 1px solid #ccc; }
+    .input-list > .list > .item {
+      padding: 1rem .5rem; }
+      .input-list > .list > .item > .text-input:last-child, .input-list > .list > .item > .custom-input:last-child, .input-list > .list > .item > .file-input:last-child, .input-list > .list > .item > .image-input:last-child,
+      .input-list > .list > .item > .custom-input:last-child,
+      .input-list > .list > .item > .file-input:last-child,
+      .input-list > .list > .item > .image-input:last-child {
+        margin-bottom: 0; }
+      .input-list > .list > .item:nth-child(even) {
+        background: #ddd; }
     .input-list > .list > .add {
       margin: .5em auto;
       text-align: center; }

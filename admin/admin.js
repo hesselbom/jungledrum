@@ -735,12 +735,16 @@ exports.default = function (_ref2) {
       { className: 'list' },
       list.map(function (item, i) {
         var _path = (path || []).concat(i);
-        return (0, _page.getInput)(getCustomField(_path, subfield), item, {
-          onInput: onInput(list, i, onChange),
-          onSelectFile: onSelectFile,
-          path: _path,
-          getCustomField: getCustomField
-        });
+        return _preact2.default.h(
+          'div',
+          { className: 'item' },
+          (0, _page.getInput)(getCustomField(_path, subfield), item, {
+            onInput: onInput(list, i, onChange),
+            onSelectFile: onSelectFile,
+            path: _path,
+            getCustomField: getCustomField
+          })
+        );
       }),
       _preact2.default.h(
         'div',
