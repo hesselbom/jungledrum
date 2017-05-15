@@ -1,3 +1,5 @@
+import 'whatwg-fetch'
+
 import { render } from 'preact'
 import { Router } from 'preact-router'
 import { Provider, connect } from 'preact-redux'
