@@ -31,7 +31,10 @@ const onRouteChange = (props) => {
   }
 }
 const LoggedIn = connect(state => state)(
-  ({user, children}) => user.token || GLOBALS.requiresLogin === false ? children[0] : <LoginView />
+  ({user, children}) =>
+    user.token || GLOBALS.requiresLogin === false
+    ? children[0]
+    : <LoginView />
 )
 
 if (Cookies.get('jungletoken') || GLOBALS.requiresLogin === false) {
@@ -53,7 +56,7 @@ const routes = (
       <Router onChange={onRouteChange} history={history}>
         <AppView path={`${GLOBALS.adminurl}/page/:pageid`} child={props => <PageView key={props.matches.pageid} />} />
         <AppView path={`${GLOBALS.adminurl}/new`} child={props => <PageView newPage />} />
-        <AppView default children={<NoPage />} />
+        <AppView default child={props => <NoPage />} />
       </Router>
     </LoggedIn>
   </Provider>

@@ -108,7 +108,9 @@ var routes = _preact2.default.h(
       _preact2.default.h(_appView2.default, { path: GLOBALS.adminurl + '/new', child: function child(props) {
           return _preact2.default.h(_pageView2.default, { newPage: true });
         } }),
-      _preact2.default.h(_appView2.default, { 'default': true, children: _preact2.default.h(_noPage2.default, null) })
+      _preact2.default.h(_appView2.default, { 'default': true, child: function child(props) {
+          return _preact2.default.h(_noPage2.default, null);
+        } })
     )
   )
 );
