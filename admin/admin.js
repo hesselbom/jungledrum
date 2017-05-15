@@ -2176,8 +2176,8 @@ var view = function view(_ref3) {
     _preact2.default.h('div', { className: 'logo-div' }),
     _preact2.default.h(
       'form',
-      { onSubmit: onSubmit(login, dispatch) },
-      _preact2.default.h(_textInput2.default, { label: 'Username', name: 'username', value: login.username, onChange: onInput('username', dispatch) }),
+      { onSubmit: onSubmit(login, dispatch), autocomplete: 'off', autocorrect: 'off' },
+      _preact2.default.h(_textInput2.default, { label: 'Username', name: 'username', value: login.username, onChange: onInput('username', dispatch), autocomplete: 'off', autoCorrect: 'off', autocapitalize: 'off', spellCheck: 'false' }),
       _preact2.default.h(_textInput2.default, { type: 'password', label: 'Password', name: 'password', value: login.password, onChange: onInput('password', dispatch) }),
       login.error ? _preact2.default.h(
         'p',

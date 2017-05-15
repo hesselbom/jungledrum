@@ -53,8 +53,8 @@ const onSubmit = ({username, password}, dispatch) => ev => {
 let view = ({dispatch, login}) =>
   <div className='login-view'>
     <div className='logo-div' />
-    <form onSubmit={onSubmit(login, dispatch)}>
-      <TextInput label='Username' name='username' value={login.username} onChange={onInput('username', dispatch)} />
+    <form onSubmit={onSubmit(login, dispatch)} autocomplete='off' autocorrect='off'>
+      <TextInput label='Username' name='username' value={login.username} onChange={onInput('username', dispatch)} autocomplete='off' autoCorrect='off' autocapitalize='off' spellCheck='false' />
       <TextInput type='password' label='Password' name='password' value={login.password} onChange={onInput('password', dispatch)} />
       { login.error ? <p className='error'>{login.error}</p> : null }
       <ActionButton type='submit' label='Login' loading={login.loggingin} icon='sign-in' />
