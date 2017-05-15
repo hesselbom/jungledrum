@@ -14,8 +14,9 @@ head
   meta(name='theme-color', content='#ffffff')
 
   script(src='https://cdn.polyfill.io/v2/polyfill.min.js')
+  script(src=adminurl+'/settings.js')
   script.
-    var GLOBALS = { adminurl: '#{adminurl}', uploads: '#{uploads}', requiresLogin: #{requiresLogin} }
+    window.GLOBALS = window.GLOBALS || { adminurl: '/_admin', uploads: 'uploads', requiresLogin: true }
     var plugins = {}
   each plugin in plugins
     script(src='/plugins/' + plugin)
