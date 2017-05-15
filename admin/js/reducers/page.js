@@ -30,7 +30,7 @@ export default (state = {}, action) => {
       ...(action.page || {}),
       _isNewPage: false,
       _clean: true,
-      _displayMetadata: state._displayMetadata
+      _displayMetadata: false
     }
     case 'SET_PAGES': return state._isNewPage
       ? {

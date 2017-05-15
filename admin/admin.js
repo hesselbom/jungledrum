@@ -1717,7 +1717,7 @@ exports.default = function () {
       return _extends({}, action.page || {}, {
         _isNewPage: false,
         _clean: true,
-        _displayMetadata: state._displayMetadata
+        _displayMetadata: false
       });
     case 'SET_PAGES':
       return state._isNewPage ? _extends({}, state, {
@@ -2471,6 +2471,37 @@ var PageView = function (_Component) {
       var template = templates.templates[templateKey] || {};
       var fields = template.fields || [];
 
+      var metadata = _preact2.default.h(
+        'section',
+        { className: (0, _classnames2.default)('metadata-block', { '-closed': page._displayMetadata === false }) },
+        _preact2.default.h(
+          'header',
+          { className: 'header', onClick: function onClick() {
+              return dispatch({ type: 'TOGGLE_METADATA' });
+            } },
+          _preact2.default.h(
+            'h2',
+            null,
+            'Metadata'
+          )
+        ),
+        _preact2.default.h(
+          'div',
+          { className: 'content' },
+          templateKeys.length > 0 && !page._static ? _preact2.default.h(_selectInput2.default, {
+            label: 'Template',
+            name: '_template',
+            options: templateKeys.map(function (key) {
+              return { value: key, label: templates.templates[key].name || key };
+            }),
+            value: templateKey,
+            onChange: setPageTemplate(dispatch)
+          }) : null,
+          _preact2.default.h(_checkboxInput2.default, { label: 'Is Homepage', name: '_home', checked: page._home, onChange: onInput(dispatch, '_home') }),
+          !page._static ? _preact2.default.h(_textInput2.default, { label: 'Slug', name: '_slug', value: page._slug, onChange: onInput(dispatch, '_slug') }) : null
+        )
+      );
+
       return _preact2.default.h(
         'section',
         { className: 'page-view' },
@@ -2493,36 +2524,7 @@ var PageView = function (_Component) {
         _preact2.default.h(
           'div',
           { className: 'content' },
-          _preact2.default.h(
-            'section',
-            { className: (0, _classnames2.default)('metadata-block', { '-closed': page._displayMetadata === false }) },
-            _preact2.default.h(
-              'header',
-              { className: 'header', onClick: function onClick() {
-                  return dispatch({ type: 'TOGGLE_METADATA' });
-                } },
-              _preact2.default.h(
-                'h2',
-                null,
-                'Metadata'
-              )
-            ),
-            _preact2.default.h(
-              'div',
-              { className: 'content' },
-              templateKeys.length > 0 && !page._static ? _preact2.default.h(_selectInput2.default, {
-                label: 'Template',
-                name: '_template',
-                options: templateKeys.map(function (key) {
-                  return { value: key, label: templates.templates[key].name || key };
-                }),
-                value: templateKey,
-                onChange: setPageTemplate(dispatch)
-              }) : null,
-              _preact2.default.h(_checkboxInput2.default, { label: 'Is Homepage', name: '_home', checked: page._home, onChange: onInput(dispatch, '_home') }),
-              !page._static ? _preact2.default.h(_textInput2.default, { label: 'Slug', name: '_slug', value: page._slug, onChange: onInput(dispatch, '_slug') }) : null
-            )
-          ),
+          newPage ? metadata : null,
           !page._static ? _preact2.default.h(_textInput2.default, { label: 'Title', name: '_title', value: page._title, onChange: onInput(dispatch, '_title') }) : null,
           fields.map(function (field, i) {
             return (0, _page.getInput)(_this4.getCustomField(field.id, field), page[field.id], {
@@ -2531,7 +2533,8 @@ var PageView = function (_Component) {
               getCustomField: _this4.getCustomField,
               clearCustomField: _this4.clearCustomField
             });
-          })
+          }),
+          newPage ? null : metadata
         ),
         _preact2.default.h(_fileModal2.default, { file: file, dispatch: dispatch, uploads: GLOBALS.uploads })
       );

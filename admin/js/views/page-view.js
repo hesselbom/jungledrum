@@ -129,6 +129,25 @@ class PageView extends Component {
     let template = templates.templates[templateKey] || {}
     let fields = (template.fields || [])
 
+    let metadata = <section className={cn('metadata-block', { '-closed': page._displayMetadata === false })}>
+      <header className='header' onClick={() => dispatch({ type: 'TOGGLE_METADATA' })}>
+        <h2>Metadata</h2>
+      </header>
+      <div className='content'>
+        {templateKeys.length > 0 && !page._static
+          ? <SelectInput
+            label='Template'
+            name='_template'
+            options={templateKeys.map(key => ({ value: key, label: templates.templates[key].name || key }))}
+            value={templateKey}
+            onChange={setPageTemplate(dispatch)}
+          />
+          : null}
+        <CheckboxInput label='Is Homepage' name='_home' checked={page._home} onChange={onInput(dispatch, '_home')} />
+        {!page._static ? <TextInput label='Slug' name='_slug' value={page._slug} onChange={onInput(dispatch, '_slug')} /> : null}
+      </div>
+    </section>
+
     return <section className='page-view'>
       <header className='page-header'>
         <HamburgerButton dispatch={dispatch} />
@@ -142,24 +161,7 @@ class PageView extends Component {
         </div>
       </header>
       <div className='content'>
-        <section className={cn('metadata-block', { '-closed': page._displayMetadata === false })}>
-          <header className='header' onClick={() => dispatch({ type: 'TOGGLE_METADATA' })}>
-            <h2>Metadata</h2>
-          </header>
-          <div className='content'>
-            {templateKeys.length > 0 && !page._static
-              ? <SelectInput
-                label='Template'
-                name='_template'
-                options={templateKeys.map(key => ({ value: key, label: templates.templates[key].name || key }))}
-                value={templateKey}
-                onChange={setPageTemplate(dispatch)}
-              />
-              : null}
-            <CheckboxInput label='Is Homepage' name='_home' checked={page._home} onChange={onInput(dispatch, '_home')} />
-            {!page._static ? <TextInput label='Slug' name='_slug' value={page._slug} onChange={onInput(dispatch, '_slug')} /> : null}
-          </div>
-        </section>
+        {newPage ? metadata : null}
         {!page._static ? <TextInput label='Title' name='_title' value={page._title} onChange={onInput(dispatch, '_title')} /> : null}
         {
           fields.map((field, i) => getInput(
@@ -173,6 +175,7 @@ class PageView extends Component {
             }
           ))
         }
+        {newPage ? null : metadata}
       </div>
       <FileModal file={file} dispatch={dispatch} uploads={GLOBALS.uploads} />
     </section>
