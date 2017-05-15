@@ -19,6 +19,10 @@ export default class CustomInput extends Component {
       setTimeout(() => instance.setup(this.ref), 0)
     }
 
+    if (!this.containerId) {
+      this.containerId = `custom-${shortid.generate()}`
+    }
+
     return <div className='custom-input' id={this.containerId}>
       <label for={name}>{label}</label>
       <div

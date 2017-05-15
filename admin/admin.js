@@ -297,6 +297,10 @@ var CustomInput = function (_Component) {
         }, 0);
       }
 
+      if (!this.containerId) {
+        this.containerId = 'custom-' + _shortid2.default.generate();
+      }
+
       return _preact2.default.h(
         'div',
         { className: 'custom-input', id: this.containerId },
